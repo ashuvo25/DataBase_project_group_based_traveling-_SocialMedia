@@ -3,13 +3,13 @@ include('server.php');
 //require(__DIR__.'/../login.php');
 include(__DIR__ . "/../Web_Design/DBconnection.php");
 
-session_start();
 
 if (!isset($_SESSION['username'])) {
    header('Location: home.php');
    exit();
 }
 $username = $_SESSION['username'];
+// echo  $username;
 $link = select_profile_edit($username);
 ?>
 <!DOCTYPE html>
@@ -46,20 +46,21 @@ $link = select_profile_edit($username);
             <li class="nav_list"> <a href="/Web_Design/create_group/Registration_Form/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
-            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
+            <li class="nav_list"> <a href="/Web_Design/Chat_Box/index.php"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
          </ul>
       </div>
       <div class="nav_right">
          <!-- login_signup_page\Web_Design\Profile_Edit\Home_index.php -->
          <?php
-         $link = select_profile_edit($username);
          $name = $link['name'];
          ?>
 
          <!-- Home_pages\CSS_home\Pagess\verification -->
          <div class="profile">
             <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
-               <img src="<?php echo 'uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+            <img src="<?php echo isset($link['image']) ? 'uploads/' . $link['image'] : 'path/to/default/image.jpg'; ?>" alt="" height="40px" width="40px" class="img_prof">
+
+
                <p><?php echo $name; ?></p>
             </a>
          </div>

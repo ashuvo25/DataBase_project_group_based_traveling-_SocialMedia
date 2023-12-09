@@ -1,7 +1,7 @@
 <?php
 
 include(__DIR__ . "/../DBconnection.php");
-session_start();
+
 
 if (!isset($_SESSION['username'])) {
   http_response_code(401); // Unauthorized

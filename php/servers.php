@@ -14,17 +14,25 @@ $conn = mysqli_connect($hostName ,$dbUser ,$dbpassword,$dbName);
 function login($username,$password){
    global $conn;
    session_start(); 
-   $_SESSION['username']=$username;
+
+
+  //  $_SESSION['username']=$username;
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $username = $_POST['username'];
+          // $_SESSION['username'] = $username;
           $password = $_POST['password'];
           $query = "SELECT * FROM signups WHERE username = ? AND passwords = ?";
           $stmt = $conn->prepare($query);
           $stmt->bind_param("ss", $username, $password);
           $stmt->execute();
           $result = $stmt->get_result();
+
           if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $name= $row['username'];
+            $email = $row['email'];
             $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
               header("Location: Home_pages/home.php");
               exit();
           } else {
@@ -41,6 +49,7 @@ function singup($username, $name, $email ,$age , $password ){
          $username = $_POST["username"];
          $name = $_POST["name"];
          $email = $_POST["email"];
+         $_SESSION["email"]=$email;
          $age = $_POST["age"];
          $password = $_POST["password"];
          $fixedImagePath = "blank-profile-picture-973460_1280.webp";

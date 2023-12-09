@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 
 <?php
-require 'E:\University\Programming\Web Design\DBconnection.php';
+include(__DIR__.'/../../DBconnection.php');
 ?>
 
 <?php
 $groupInfo = group_view();
-
+$username = $_SESSION['username'];
+$link = select_profile_edit($username);
 
 ?>
+
 
 <?php
 if (isset($_GET['variable1'])) {
     
-    $USERNAME = 'bappy';
+    $USERNAME = $_SESSION['username'];
 
 
     $groupid = (int)$_GET['variable1'];
@@ -63,10 +65,49 @@ if (isset($_GET['variable1'])) {
 </head>
 
 <body>
+    
+<nav>
+      <div class="nav_left">
+         <div class="logo">
+            <h1 class="title">
+               Forest MeN
+               <div class="logo-container">
+                  <div class="aurora"></div>
+
+               </div>
+            </h1>
+            <p class="subtitie">Made Trip With Us!</p>
+         </div>
+         <ul>
+            <li class="nav_list"> <a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
+            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
+            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
+            <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
+            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
+         </ul>
+      </div>
+      <div class="nav_right">
+         <!-- login_signup_page\Web_Design\Profile_Edit\Home_index.php -->
+         <?php
+         $name = $link['name'];
+         ?>
+         <!-- <img src="/Home_pages/uploads/" alt=""> -->
+      <!-- Home_pages\uploads -->
+         <div class="profile">
+            <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+               <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+               <p><?php echo $name; ?></p>
+               
+            </a>
+         </div>
+      </div>
+   </nav>
+
     <div class="wrapper">
-        <h1>Group</h1>
+      <input type="button" value="CREATE GROUP" class="h1" >
         <div class="project">
-            <div class="shop">
+          
                 <?php
                 // Check if there are groups to display
                 if ($groupInfo) {
@@ -161,7 +202,7 @@ if (isset($_GET['variable1'])) {
                     echo "No groups to display.";
                 }
                 ?>
-            </div>
+           
         </div>
     </div>
 </body>

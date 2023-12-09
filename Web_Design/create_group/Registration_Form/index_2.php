@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-session_start();
+
 include(__DIR__."/../../../Web_Design/DBconnection.php");
 
 
@@ -40,11 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     // Combine data from both forms
-    $see = $_SESSION[" form_1 "];
-    $combinedForm = array_merge($see, $form_2);
-
-    // Call your function to insert data into the database
+    $form_1 = isset($_SESSION["form_1"]) ? $_SESSION["form_1"] : array();
+  
+    $combinedForm = array_merge($form_1, $form_2);
+    // Home_pages\home.php
     insertGroup($combinedForm);
+    header("Location:Home_page/home.php");
     $conn->close();
     // }
 

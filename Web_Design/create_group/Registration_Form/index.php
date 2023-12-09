@@ -30,14 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
    
 
-    // Set session variables
+  
 
-    $_SESSION["username"];
-
-    $_SESSION[" form_1 "] =  $form_1 ;
-    
-    $_SESSION["email"];
-
+    $_SESSION["form_1"] = $form_1;
     header("Location: index_2.php");
     exit();
 }

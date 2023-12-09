@@ -4,7 +4,7 @@
 <?php
 
 include(__DIR__."/../DBconnection.php");
-session_start();
+
 if (!isset($_SESSION['username'])) {
   header('location: Home_index.php');
   exit();

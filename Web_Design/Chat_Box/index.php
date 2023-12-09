@@ -2,8 +2,8 @@
 <?php
 // Assume you have a database connection
 
-require 'E:\University\Programming\Web Design\DBconnection.php';
-$sender = "bappy";
+include(__DIR__.'/../DBconnection.php');
+$sender = $_SESSION['username'];
 if (isset($_GET['receiver'])) {
     $_SESSION['receiver'] = $_GET['receiver'];
 

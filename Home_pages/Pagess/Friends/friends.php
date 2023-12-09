@@ -2,7 +2,7 @@
 
 include(__DIR__.'/../../../Web_Design/DBconnection.php');
 
-session_start();
+
 
 if (!isset($_SESSION['username'])) {
    header('Location: friends.php');
@@ -45,15 +45,15 @@ $link = select_profile_edit($username);
       <div class="nav_right">
          <!-- login_signup_page\Web_Design\Profile_Edit\Home_index.php -->
          <?php
-         $link = select_profile_edit($username);
          $name = $link['name'];
          ?>
-         <!-- Home_pages\CSS_home\Pagess\verification -->
-          <!-- Home_pages\uploads -->
+         <!-- <img src="/Home_pages/uploads/" alt=""> -->
+      <!-- Home_pages\uploads -->
          <div class="profile">
             <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
-               <img src="<?php echo 'Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+               <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
                <p><?php echo $name; ?></p>
+               
             </a>
          </div>
       </div>

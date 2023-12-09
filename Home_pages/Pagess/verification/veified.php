@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include(__DIR__ . "/../../../Web_Design/DBconnection.php");
 
 include(__DIR__ . '/../../server.php');
@@ -153,7 +153,7 @@ function sendEmail($email, $otp)
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #fff;
         }
 
         .verification-options {
