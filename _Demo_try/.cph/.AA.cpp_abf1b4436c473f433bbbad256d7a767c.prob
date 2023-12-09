@@ -1,0 +1,1 @@
+{"name":"Local: AA","url":"c:\\xampp\\htdocs\\MyWeb\\ProjectDBMS\\login_signup_page\\_Demo_try\\AA.cpp","tests":[{"id":1701614347169,"input":"3\n2\n00\n2\n11\n2\n10","output":"YES\nNO\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\xampp\\htdocs\\MyWeb\\ProjectDBMS\\login_signup_page\\_Demo_try\\AA.cpp","group":"local","local":true}

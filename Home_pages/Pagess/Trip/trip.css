@@ -1,0 +1,152 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family:  Arial, Helvetica, sans-serif;
+}
+
+.trip_main{
+    border: 1px solid black;
+    margin-top: 10px;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    width: 100%;
+}
+header{
+    width: 90%;
+    /* border:  1px solid red; */
+    padding: 5px;
+    margin-left: 60px;
+    margin-bottom: 16px;
+}
+header a{
+    width: 80%;
+    margin-left: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+.trip_main header {
+    display: flex;
+    align-items: center;
+}
+
+.trip_main a {
+    display: flex;
+    align-items: center;
+    margin-right: 0px; 
+}
+
+.trip_main h4 {
+    margin-left: 150px;
+    font-size: 10px;
+
+}
+.back_logo{
+    transform: rotateZ(180deg);
+    margin-right: 8px;
+}
+.img_links{
+    display: flex;
+    margin-left: 45px;
+}
+.image_section{
+    display: flex;
+    /* border: 1px solid black; */
+    width: 75%;
+    /* margin-right: ; */
+}
+.image_name img{
+    padding: 5px;
+    margin-bottom: 8px;
+}
+.image_name{
+    /* border: 1px solid black; */
+    margin-right: 9px;
+    margin-left: 8px;
+    margin-top: 10px;
+    margin-bottom: 9px;
+}
+.name{
+    padding: 5px;
+    margin-bottom: 9px;
+    font-size: 10px;
+    margin-left: 45px;
+}
+
+.text_side h3{
+    margin-top: 25px;
+    padding: 6px;
+}
+.text_side p{
+    padding: 6px;
+}
+.date,.country{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+.country img{
+    margin-right: 12px;
+}
+.about{
+    font-size: 14px;
+    margin-top: 8px;
+}
+/* -------------------For buttons */
+.links_section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.icon_btn {
+    width: 100%; 
+    margin-bottom: 10px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.icon_btn img{
+    margin-right: 15px;
+    width: 18px;
+    margin-left: 8px;
+}
+.baa{
+    background: rgba(0, 0, 0, 0.76);
+    color: #fff;
+}
+.baa1{
+    background: rgba(196, 174, 33, 0.705);
+    color: #fff;
+}
+
+/* ----------For Extra items-------- */
+
+.extras_item {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 45px;
+    margin-top: 15px;
+ 
+}
+.extras_item p {
+    flex: 0 0 calc(25% - 20px); 
+    margin-right: 20px; 
+    margin-bottom: 20px;
+}
+.extras_item p:last-child {
+    margin-right: 0; 
+}
+.extras_item img{
+    padding: 2px;
+    margin-right: 5px;
+}
+.extras_item p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; 
+    font-size: 12px;
+}
