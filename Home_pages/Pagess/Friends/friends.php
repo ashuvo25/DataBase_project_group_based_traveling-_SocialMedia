@@ -10,9 +10,7 @@ if (!isset($_SESSION['username'])) {
 }
 $username = $_SESSION['username'];
 $link = select_profile_edit($username);
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
