@@ -4,25 +4,42 @@
 
 require 'E:\University\Programming\Web Design\DBconnection.php';
 $sender = "bappy";
+
+$groupID = $_SESSION['groupID'];
 if (isset($_GET['receiver'])) {
-    $_SESSION['receiver'] = $_GET['receiver'];
+    $_SESSION['groupID'] = $_GET['receiver'];
 
-    // Update other relevant variables as needed
+    $groupID=  $_GET['receiver'];
 }
-$receiver = $_SESSION['receiver'];
-
-$friendinfo = select_profile_edit($receiver);
-$messages = getPersonalMessages($sender, $receiver);
 
 
-$ChatList = getChatList($sender);
+$groupInfoQuery = "SELECT CONCAT(FromLocation, '_', ToLocation) as group_name, Start_date
+FROM group_details
+WHERE Group_ID =$groupID ;";
+
+$groupInfoResult = $conn->query($groupInfoQuery);
+
+if ($groupInfoResult) {
+    $groupInfo = $groupInfoResult->fetch_assoc();
+} else {
+    // Handle the error or display a default value
+    $groupInfo = [
+        'group_name' => 'Group Name Not Available',
+        'Start_date' => 'Start Date Not Available'
+    ];
+}
+$messages = getGroupMessages( $groupID);
+
+
+$groupChatList = getGroupList($sender);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['messageInput'])) {
         $messageText = $_POST['messageInput'];
-        SendMessage($messageText, $receiver, $sender);
+        sendGroupMessage($messageText, $groupID, $sender);
     }
-    header('location: index.php');
+    header('location: group_index.php');
+    exit();
 }
 
 // Set Content Type Header to HTML
@@ -54,32 +71,34 @@ $conn->close();
                     <div class="card chat-app">
                         <div id="plist" class="people-list">
                             <!-- <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Search...">
+                               <li class="clearfix" style="background-color: cyan;">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                    <div class="about">
+                                        <div class="name">Group Chat</div>
+                                        <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
+                                    </div>
+                                </li>
                             </div> -->
-
                             <ul class="list-unstyled chat-list mt-2 mb-0">
-                                <li class="clearfix" style="background-color: aqua;">
-                                    <a href="group_index.php">
+                                <li class="clearfix" style="background-color: lime;">
+                                    <a href="index.php">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                         <div class="about">
-                                            <div class="name">Group Chat</div>
+                                            <div class="name">Personal Chat</div>
                                             <!-- <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div> -->
                                         </div>
                                     </a>
                                 </li>
-                                <?php foreach ($ChatList as $user) : ?>
+                                <?php foreach ($groupChatList as $user) : ?>
                                     <li class="clearfix">
-                                        <a href="index.php? receiver=<?= $user['username'] ?>">
+                                        <a href="group_index.php? receiver=<?= $user['group_id'] ?>">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                             <div class="about">
-                                                <div class="name"><?= $user['friend_name'] ?></div>
+                                                <div class="name"><?= $user['group_name'] ?></div>
                                                 <div class="status">
                                                     <i class="fa fa-circle <? //= $user['statusClass'] 
                                                                             ?>"></i>
-                                                    <?= $user['timestamp'] ?>
+                                                    <?= $user['start_date'] ?>
                                                 </div>
                                             </div>
                                         </a>
@@ -103,20 +122,20 @@ $conn->close();
                                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                         </a>
                                         <div class="chat-about">
-                                            <h6 class="m-b-0"><?php echo $friendinfo['name'] ?></h6>
-                                            <!-- <small>Last seen: <?php echo $friendInfo['last_seen'] ?></small> -->
+                                            <h6 class="m-b-0"><?php echo $groupInfo['group_name'] ?></h6>
+                                            <!-- <small>Last seen: <?php //echo $groupInfo['] ?></small> -->
                                         </div>
                                     </div>
 
 
 
-                                    <div class="col-lg-6 hidden-sm text-right">
+                                    <!-- <div class="col-lg-6 hidden-sm text-right">
                                         <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
                                         <a href="/Home_index.php" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-                                        <a href="E:\University\Programming\Web Design\Profile\Home_index.php ?username=<?= $friendinfo['username'] ?>" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
-                                        <!-- E:\University\Programming\Web Design\Profile\Home_index.php -->
-                                    </div>
+                                        <a href="http://localhost:3000/Profile_Edit/Home_index.php?username=<?= $friendinfo['username'] ?>" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
+
+                                    </div> -->
                                 </div>
 
                             </div>
@@ -126,7 +145,7 @@ $conn->close();
                                     <?php foreach ($messages as $message) : ?>
                                         <li class="clearfix">
                                             <div class="message-data <?php echo ($message['sender_username'] == $sender) ? 'text-right' : ''; ?>">
-                                                <span class="message-data-time"><?php echo date('H:i', strtotime($message['timestamp'])), "...",$message['sender_username'] ; ?></span>
+                                               <?php echo date('H:i', strtotime($message['timestamp'])), "...",$message['sender_username'] ; ?></span>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                             </div>
                                             <div class="message <?php echo ($message['sender_username'] == $sender) ? 'other-message float-right' : 'my-message'; ?>">
@@ -156,32 +175,6 @@ $conn->close();
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script type="text/javascript">
-        function sendMessage() {
-            var messageText = $('#messageInput').val();
-            var receiver = 'Shuvo'; // You may need to dynamically get the receiver's username
-
-            // Prevent the default form submission
-            event.preventDefault();
-
-            // Serialize form data
-            var formData = $('#messageForm').serializeArray();
-            formData.push({
-                name: 'receiver',
-                value: receiver
-            });
-
-            // Send data to the server
-            $.post('E:/University/Programming/Web Design/DBconnection.php', formData, function(data) {
-                console.log(data);
-                // Optionally, update the chat history after sending a message
-                getMessages(receiver);
-            });
-        }
-
-        // ... your existing code ...
-    </script> -->
-
 
 </body>
 

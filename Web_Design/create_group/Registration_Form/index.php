@@ -2,7 +2,8 @@
 
 <?php
 
-require 'E:\University\Programming\Web Design\DBconnection.php';
+
+include(__DIR__."/../../../Web_Design/DBconnection.php");
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,9 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
 
     // Set session variables
+
+    $_SESSION["username"];
+
     $_SESSION[" form_1 "] =  $form_1 ;
-    $_SESSION["name"]="Adnan22";
-    $_SESSION["email"]="adnanulislam22@gmail.com";
+    
+    $_SESSION["email"];
 
     header("Location: index_2.php");
     exit();

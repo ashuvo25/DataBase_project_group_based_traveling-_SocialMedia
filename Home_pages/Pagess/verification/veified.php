@@ -29,14 +29,13 @@ if (isset($_POST['authorizeSubmit'])) {
             $otp = generateOTP();
             sendEmail($email, $otp);
             $_SESSION['otp'] = $otp;
-            $_SESSION['email'] = $email; 
+            $_SESSION['email'] = $email;
             $_SESSION['showOTPForm'] = true;
             echo '<script>showOTPForm();</script>'; // Add this line to call the JavaScript function
-        }
-        else {
+        } else {
             echo "Invalid domain: $domain";
         }
-        
+
         echo '<script>alert("OTP sent successfully!");</script>';
     } else {
         echo "Invalid email address format";
@@ -56,7 +55,6 @@ if (isset($_POST['authorizeSubmit'])) {
             updateProfile($_SESSION['username'], $postData);
             echo '<script>alert("verified successfully!");</script>';
             header('Location: /Home_pages/home.php');
-
         }
 
         exit;
@@ -71,7 +69,7 @@ if (isset($_SESSION['showOTPForm']) && $_SESSION['showOTPForm']) {
     echo 'document.getElementById("otpForm").style.display = "block";';
     echo '</script>';
     unset($_SESSION['showOTPForm']); // Reset the flag
-   
+
 }
 function generateOTP()
 {
@@ -135,16 +133,19 @@ function sendEmail($email, $otp)
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            background:#003554;
+            /*background-image: url(/Img/bggggg.jpg);*/
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         .container {
             max-width: 800px;
             margin: 50px auto;
-            background-color: #fff;
+            background-color: #032030  ;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -172,16 +173,19 @@ function sendEmail($email, $otp)
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
-            
+
         }
-        .verification-form1{
+
+        .verification-form1 {
             align-items: center;
             margin-top: 20px;
-           
+
         }
-        #otp{
+
+        #otp {
             height: 40px;
         }
+
         .image-inputs {
             display: none;
             margin-top: 20px;
@@ -220,12 +224,14 @@ function sendEmail($email, $otp)
         .fade-in.active {
             opacity: 1;
         }
-        .ing_rotat{
+
+        .ing_rotat {
             transform: rotateZ(180deg);
             width: 25px;
 
         }
-        h1{
+
+        h1 {
             border-bottom: 2px solid green;
         }
     </style>
@@ -234,31 +240,31 @@ function sendEmail($email, $otp)
 <body>
 
     <div class="container">
-        <h1><a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/next.png" alt="" class="ing_rotat" ></a>
-        &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Verification</h1>
+        <h1><a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/next.png" alt="" class="ing_rotat"></a>
+            &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Verification</h1>
 
         <div class="verification-options">
             <button onclick="showForm('authorize')">Authorize</button>
             <button onclick="showForm('normal')">Normal</button>
         </div>
 
-<div id="authorizeForm" class="verification-form">
+        <div id="authorizeForm" class="verification-form">
             <form method="post" action="veified.php">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required >
+                <input type="email" id="email" name="email" required>
                 <button type="submit" name="authorizeSubmit">Submit</button>
             </form>
-            
-        <div id="otpForm" class="verification-form1" style="display: block;">
-            <form method="post" action="veified.php">
-                <label for="otp">OTP:</label>
-                <input type="text" id="otp" name="otp" required>
-                <button type="submit" name="otpSubmit">Submit OTP</button>
-            </form>
+
+            <div id="otpForm" class="verification-form1" style="display: block;">
+                <form method="post" action="veified.php">
+                    <label for="otp">OTP:</label>
+                    <input type="text" id="otp" name="otp" required>
+                    <button type="submit" name="otpSubmit">Submit OTP</button>
+                </form>
+            </div>
+
         </div>
-        
-</div>
-     
+
 
         <div id="normalForm" class="image-inputs">
             <label for="image1">Image 1:</label>
@@ -270,7 +276,7 @@ function sendEmail($email, $otp)
             <button type="submit">Submit</button>
         </div>
 
-      
+
     </div>
 
     <script>
@@ -278,7 +284,7 @@ function sendEmail($email, $otp)
             if (option === 'authorize') {
                 document.getElementById('authorizeForm').style.display = 'block';
                 document.getElementById('normalForm').style.display = 'none';
-                
+
             } else {
                 document.getElementById('authorizeForm').style.display = 'none';
                 document.getElementById('normalForm').style.display = 'block';

@@ -9,7 +9,7 @@ $conn = mysqli_connect($hostName ,$dbUser ,$dbpassword,$dbName);
     die("Somthing went wrong");
  }
 
-
+session_start();
 
 // Check the connection
 if ($conn->connect_error) {

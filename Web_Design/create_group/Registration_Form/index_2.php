@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-require 'E:\University\Programming\Web Design\DBconnection.php';
+session_start();
+include(__DIR__."/../../../Web_Design/DBconnection.php");
 
 
 
@@ -13,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Extracting data
     //if (isset($_POST['submit'])) {
-        // Extracting data from the first form
-    
+    // Extracting data from the first form
+
 
     // Extracting data from the second form
     $form_2 = array(
@@ -39,12 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     // Combine data from both forms
-    $combinedForm = array_merge( $_SESSION[" form_1 "] , $form_2);
+    $see = $_SESSION[" form_1 "];
+    $combinedForm = array_merge($see, $form_2);
 
     // Call your function to insert data into the database
     insertGroup($combinedForm);
-   // }
-    
+    $conn->close();
+    // }
+
 
     // Access data using array keys
     // echo "Check In: " . $formData['checkIn'] . "<br>";
@@ -67,6 +70,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!----======== CSS ======== -->
     <link rel="stylesheet" href="style_2.css">
 
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Back button click event
+            $(".backBtn").on("click", function() {
+                // Navigate to the previous page
+                window.location.href = 'index.php';
+            });
+        });
+    </script>
+
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -79,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <header>Create Group</header>
 
-        <form  action="index_2.php"  method="post">
+        <form action="index_2.php" method="post">
 
             <div class="form second">
                 <div class="details address">
@@ -98,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="input-field">
                             <label>Transport</label>
-                            <select name="Transport_1">
+                            <select name="Transport_1" requireed>
                                 <option disabled selected>Select vehicle</option>
                                 <option>Bus</option>
                                 <option>Train</option>
