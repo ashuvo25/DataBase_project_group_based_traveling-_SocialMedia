@@ -43,7 +43,7 @@ $link = select_profile_edit($username);
          <ul>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
-            <li class="nav_list"> <a href="/Web_Design/create_group/Registration_Form/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
+            <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/Chat_Box/index.php"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
@@ -315,7 +315,7 @@ $link = select_profile_edit($username);
          <?php endforeach; ?>
       </div>
       <!----------------------------- right side----------------------------------------------------------------- -->
-      <div class="left_sidebar">
+      <div class="right_sidebar">
          <div class="imp-links">
 
             <a href=""><img src="/Home_pages/image/icons/newspaper.png" class="friend">&nbsp Latest Update</a>

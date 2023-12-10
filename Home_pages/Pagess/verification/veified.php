@@ -108,7 +108,7 @@ function sendEmail($email, $otp)
         $mail->Username   = "forwebsitesheet@gmail.com";
         $mail->Password   = "fvyolbqallbvkust";
 
-        $mail->setFrom('your@example.com', 'OTP');
+        $mail->setFrom('your@example.com', 'OTP for Verification  ');
         $mail->addAddress($email);
 
         $mail->isHTML(true);

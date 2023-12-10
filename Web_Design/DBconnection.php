@@ -337,6 +337,7 @@ function select_profile_edit($username)
                 // "number" => $row["number"],
                 // "website" => $row["website"],
                 // "company" => $row["company"]
+                "verified" => $row['verified'],
 
             );
         }

@@ -103,9 +103,28 @@ if (isset($_GET['variable1'])) {
          </div>
       </div>
    </nav>
+<!-- ------------------------------------------ Shuuvo ADDD       -->
+<div class="container" >
 
+<div class="left_sidebar"> 
+<a href="/Web_Design/create_group/Registration_Form/index.php" class="group_create" ><button class="group_creat" >Create Group</button> </a>
+</div>
+<!-- ------------------------Finish -->
     <div class="wrapper">
-      <input type="button" value="CREATE GROUP" class="h1" >
+            <div class="left_sidebar1">
+         <!-- Search box -->
+         <div class="search_box">
+            <div class="search">
+
+               <form action="">
+                  <input type="text" name="search_text" id="" placeholder="Search for anything" class="search_input">
+                  <button type="submit" value="Search" class="search_button">Search</button>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- <input type="button" value="CREATE GROUP" class="h1" > -->
+      <h3 class="h3" >groups</h3>
         <div class="project">
           
                 <?php
@@ -142,7 +161,7 @@ if (isset($_GET['variable1'])) {
                                     <a href="index.php?variable1= <?php echo  $group["Group_ID"]; ?>" id="requestButton">
                                         <img src="add-group.png" class="icon_img" alt="">
                                     </a>
-                                    <span class="btn2">Request</span>
+                                    <span class="btn2">APPLY</span>
                                 </p>
 
 
@@ -204,7 +223,88 @@ if (isset($_GET['variable1'])) {
                 ?>
            
         </div>
+        </div>
+
+        <div class="right_sidebar">
+         <div class="imp-links">
+
+            <a href=""><img src="/Home_pages/image/icons/newspaper.png" class="friend">&nbsp Latest Update</a>
+            <a href=""><img src="/Home_pages/image/icons/friends.png" class="friend">&nbsp Friends</a>
+            <a href=""><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
+            <a href=""><img src="/Home_pages/image/icons/activity.png" class="friend">&nbsp Activity</a>
+            <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Travel</a>
+
+
+            <span class="more-options">
+               <a href="google"><img src="/Home_pages/image/icons/memoris.png" class="friend">&nbsp Memoris</a>
+               <a href=""><img src="/Home_pages/image/icons/deal.png" class="friend">&nbsp Promotions</a>
+               <a href=""><img src="/Home_pages/image/icons/events.png" class="friend">&nbsp Events</a>
+               <a href=""><img src="/Home_pages/image/icons/feedback.png" class="friend">&nbsp Feedback</a>
+               <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Todo</a>
+            </span>
+
+         </div>
+         <span class="more">
+            See More... &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+         </span>
+
+         <!-- extra links ------------------------------------------------------------------------------------------- -->
+         <div class="extra">
+            <p class="p_extra"><br>Your Shortcuts</p>
+
+            <div class="extra_links">
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+               a <br>
+            </div>
+         </div>
+
+         <div class="short-cut">
+            <p></p>
+            <a href=""><img src="/Home_pages/image/icons/settings1.png" class="icon_setting">&nbsp Settings</a>
+            <a href="/login.php"><img src="/Home_pages/image/icons/log-out.png" class="icon_setting">&nbsp Log Out</a>
+         </div>
+
+      </div>
     </div>
+
+
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         const moreButton = document.querySelector('.more');
+         const moreOptions = document.querySelector('.more-options');
+
+         moreButton.addEventListener('click', function() {
+            moreOptions.classList.toggle('more-options--show');
+            moreButton.textContent = moreOptions.classList.contains('more-options--show') ? "See Less..." : "See More...";
+         });
+      });
+   </script>
 </body>
 
 </html>

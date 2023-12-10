@@ -124,17 +124,209 @@ nav{
 .img_prof {
   margin-right: 10px; 
 }
+.search_box{
+	
+	 width: 100%;
+	 background:  #032030;
+	height: px;
+	border-radius: 7px;
+	opacity: 175%;
+	box-shadow: 1px 5px 3px 3px #03203044;
+	margin-bottom: 10px;
+  }
+  .search{
+	padding: 15px 7px 7px 10px;
+	border-radius: 7px;
+	width: 85%;
+	overflow: hidden;
+	height: 69px;
+	height: 95%;
+  }
+  .search:hover{
+	height: 95%;
+  }
+  .h22{
+	padding-bottom: 10px;
+	color: #ffffff;
+  }
+  .search_input{
+	 height: 30px;
+	 width: 100%;
+	 border-radius: 10px;
+  }
+  
+  .search_button{
+	margin-top: 9px;
+   border-radius: 6px;
+   width: 80px;
+   height: 25px;
+   background: rgb(255, 255, 255);
+   color: darkblue;
+  }
+  .h3{
+	font-size: 16px;
+	color: #fff;
+	margin-top: 9px;
+	margin-bottom: 9px;
+	margin-left: 400px;
+  }
+.group_creat{
+	
+	color: #0f0d0d;
+	font-size: 25px;
+    margin-top: 40px;
+	border: 3px solid rgb(124, 170, 193);
+	display: flex;
+	margin-left: 30px;
+	width: 190px;
+	cursor: pointer;
+	border-radius: 2px;
+	font-weight: bold;
+}
+.group_create{
+	text-decoration: none;
+	cursor: pointer;
+}
 
+.container{
+	display: flex;
+	justify-content: space-between;
+	padding: 3px 1%;
+	margin: -5px;
+  }
+  
+  .left_sidebar{
+   
+	flex-basis: 20%;
+	position: sticky;
+	top: 70px;
+	align-self: flex-start;
+   
+  }
+  .right_sidebar{
+   
+	flex-basis: 20%;
+	position: sticky;
+	top: 70px;
+	align-self: flex-start;
+  }
+  .wrapper{
+	flex-basis: 57%;
+	background:  rgb(205, 228, 238);
+  }
+  
+/* -------------------------------right side bar ---------------------------------------------*/
+.friend{
+	width: 25px;
+	border: 1px  solid rgb(46, 99, 71);
+	border-radius: 2px;
+  }
+  .imp-links a{
+	  text-decoration: none;
+	  display: flex;
+	  align-items: center;
+	  margin-bottom: 10px;
+	  color: #ffffff ;
+	  width: fit-content;
+	 margin-left: 10px;
+	 height: 32px;
+	 font-weight: bold;
+  }
+  .imp-links {
+	margin-top: 8px;
+   margin-bottom: 20px;
+  }
+  .imp-links a:hover{
+	background-color: #4c4b4c;
+	width: 100%;
+	padding: 3px 2px 2px 3px;
+	color: white;
+	border-radius: 2px;
+	height: 35px;
+	transition: all 0.5s ease ;
+  }
+  .imp-links a img{
+	border-radius: 10px white;
+  }
+  
+					/*------------------See More ----------------*/
+  
+	.more{
+	  color: green;
+	  cursor: pointer;
+	  border: 2px solid rgb(253, 253, 253);
+	  margin-bottom: 15px;
+	 font-size: 20px;
+	 width: 100%;
+	 border-radius: 2px;
+	}    
+			 
+  .more-options{
+	display: none;
+	
+  }
+  .more-options--show {
+	display: block;
+  }
+					  /*------------------short_cut/ logout ---------------------*/
+  
+  .extra{
+	height: 270px;
+	border-top: 1px solid #746262;
+	margin-top: 10px;
+  }
+  .short-cut{
+	border-top: 1px solid #746262;
+  }
+  .short-cut{
+	  margin-top: 60px;
+	  display: flex; 
+	  flex-direction: column; 
+	  
+	  }
+	  .short-cut p{
+		margin-bottom: 10px;
+	   
+	  }
+  .icon_setting{
+	width: 20px;
+	color: white;
+	  
+  }
+  
+  .short-cut a{
+	text-decoration: none;
+	display: flex;
+	align-items:center ;
+	margin-top: 7px;
+	color: #ffffff ;
+	width: fit-content;
+   margin-left: 10px;
+  }
+  
+  .p_extra{
+	color: #ffffff;
+	font-size: 18px;
+	padding-left: 4px;
+	font-weight: bold;
+	
+  }
+  .extra_links{
+	overflow: scroll;
+	height: 100%;
+  }
+  
+/*     --------------------Avobe    Shuvo  Add ------------------------------------*/
 .wrapper {
 	max-width: 58%;
-	margin: 0 auto;
+	margin:  auto;
 	background: rgba(0, 83, 128, 0.633);
 	display: block;
 	overflow: hidden;
 }
 
 .wrapper .h1 {
-	padding: 20px 0;
+	
 	text-align: center;
 	text-transform: uppercase;
 	border: 1px solid rgb(134, 111, 111);
@@ -169,7 +361,7 @@ nav{
 	height: 210px;
 	overflow: hidden;
 	margin-bottom: 20px;
-	background: #fff;
+	background: #072e43;
 	transition: all .6s ease;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
@@ -194,7 +386,7 @@ nav{
     position:absolute;
     bottom: 5px;
     margin-left: 30%;
-    color: rgb(71, 25, 25); /* Adjust the color as needed */
+    color: rgb(255, 255, 255); /* Adjust the color as needed */
     font-size: 17px; /* Adjust the font size as needed */
 }
 
