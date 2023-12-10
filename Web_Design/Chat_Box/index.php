@@ -2,14 +2,17 @@
 <?php
 // Assume you have a database connection
 
-include(__DIR__.'/../DBconnection.php');
+include(__DIR__ . '/../DBconnection.php');
 $sender = $_SESSION['username'];
-if (isset($_GET['receiver'])) {
-    $_SESSION['receiver'] = $_GET['receiver'];
 
+if (isset($_GET['receiver'])) {
+    $_SESSION['reciver'] = $_GET['receiver'];
+   
     // Update other relevant variables as needed
 }
-$receiver = $_SESSION['receiver'];
+$receiver =$_SESSION['reciver'] ;
+
+// $receiver = $_SESSION['receiver'];
 
 $friendinfo = select_profile_edit($receiver);
 $messages = getPersonalMessages($sender, $receiver);
@@ -29,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // print_r($_POST); // Debugging line
-$conn->close();
+// $conn->close();
 ?>
 
 
@@ -38,7 +41,7 @@ $conn->close();
 
 <head>
     <meta charset="utf-8">
-    <title>Chat App - Bootdey.com</title>
+    <title>Chat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
@@ -52,7 +55,9 @@ $conn->close();
                 <form method="post">
 
                     <div class="card chat-app">
+                   <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png"   class="chat_back" ></a>
                         <div id="plist" class="people-list">
+                            
                             <!-- <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -70,22 +75,39 @@ $conn->close();
                                         </div>
                                     </a>
                                 </li>
-                                <?php foreach ($ChatList as $user) : ?>
+
+                                <?php if ($ChatList == null || empty($ChatList)) : ?>
                                     <li class="clearfix">
-                                        <a href="index.php? receiver=<?= $user['username'] ?>">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                                            <div class="about">
-                                                <div class="name"><?= $user['friend_name'] ?></div>
-                                                <div class="status">
-                                                    <i class="fa fa-circle <? //= $user['statusClass'] 
-                                                                            ?>"></i>
-                                                    <?= $user['timestamp'] ?>
-                                                </div>
-                                            </div>
-                                        </a>
+
+
+                                        <div class="about">
+                                            <div class="name">No User found</div>
+
+                                        </div>
 
                                     </li>
-                                <?php endforeach; ?>
+                                <?php else : ?>
+                                    <?php foreach ($ChatList as $user) : 
+                                          $link = select_profile_edit($user['username']); ?>
+                                        
+                                        
+                                        <li class="clearfix">
+                                            <a href="index.php?receiver=<?= $user['username'] ?>">
+                                            <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
+
+                                                <div class="about">
+                                                    <div class="name"><?= $user['friend_name'] ?></div>
+                                                    <div class="status">
+                                                        <i class="fa fa-circle <? //= $user['statusClass'] 
+                                                                                ?>"></i>
+                                                        <?= $user['timestamp'] ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+
 
 
 
@@ -99,13 +121,20 @@ $conn->close();
                                 <div class="row">
 
                                     <div class="col-lg-6">
-                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                        </a>
-                                        <div class="chat-about">
-                                            <h6 class="m-b-0"><?php echo $friendinfo['name'] ?></h6>
-                                            <!-- <small>Last seen: <?php echo $friendInfo['last_seen'] ?></small> -->
-                                        </div>
+                                        <?php if ($friendinfo == null) : ?>
+                                            <div class="chat-about">
+                                                <h6 class="m-b-0">Select User</h6>
+                                                
+                                            </div>
+                                        <?php else : ?>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                            <img src="<?php echo '/Home_pages/uploads/' . $friendinfo['image']; ?>">
+                                            </a>
+                                            <div class="chat-about">
+                                                <h6 class="m-b-0"><?php echo $friendinfo['name'] ?></h6>
+                                                <!-- <small>Last seen: <?php echo $friendInfo['last_seen'] ?></small> -->
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
 
 
@@ -123,11 +152,13 @@ $conn->close();
 
                             <div class="chat-history">
                                 <ul id="chatHistory" class="m-b-0">
-                                    <?php foreach ($messages as $message) : ?>
+                                    <?php foreach ($messages as $message) :
+                                        $link = select_profile_edit($message['sender_username']); ?>
                                         <li class="clearfix">
                                             <div class="message-data <?php echo ($message['sender_username'] == $sender) ? 'text-right' : ''; ?>">
-                                                <span class="message-data-time"><?php echo date('H:i', strtotime($message['timestamp'])), "...",$message['sender_username'] ; ?></span>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                                <span class="message-data-time"><?php echo date('H:i', strtotime($message['timestamp'])), "...", $message['sender_username']; ?></span>
+                                                <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
+
                                             </div>
                                             <div class="message <?php echo ($message['sender_username'] == $sender) ? 'other-message float-right' : 'my-message'; ?>">
                                                 <?php echo $message['message_text']; ?>

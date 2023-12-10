@@ -4,7 +4,7 @@ include(__DIR__ . "/../../../Web_Design/DBconnection.php");
 
 include(__DIR__ . '/../../server.php');
 if (isset($_POST['authorizeSubmit'])) {
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $email = isset($_POST['emaili']) ? $_POST['emaili'] : '';
     // Fetch allowed domains from the database table
     $allowedDomainsQuery = "SELECT domain FROM univ_domain";
     $allowedDomainsResult = mysqli_query($conn, $allowedDomainsQuery);
@@ -22,14 +22,14 @@ if (isset($_POST['authorizeSubmit'])) {
         $domain = $emailParts[1];
 
         // Check if the domain is allowed
-        if ($user["verified_mail"] == $email) {
+        if (isset($user["verified_mail"]) && $user["verified_mail"] == $email) {
             echo '<script>console.log("This email is already verified");</script>';
         }
         if (in_array($domain, $allowedDomains)) {
             $otp = generateOTP();
             sendEmail($email, $otp);
             $_SESSION['otp'] = $otp;
-            $_SESSION['email'] = $email;
+            $_SESSION['emaili'] = $email;
             $_SESSION['showOTPForm'] = true;
             echo '<script>showOTPForm();</script>'; // Add this line to call the JavaScript function
         } else {
@@ -46,13 +46,14 @@ if (isset($_POST['authorizeSubmit'])) {
         echo 'Thank you for verification!';
         // $Name = ''; 
         $postData = array(
-            'verified_mail' => isset($_SESSION['email']) && $_SESSION['email'] !== '' ? $_SESSION['email'] : $Name,
+            'verified_mail' => isset($_SESSION['emaili']) && $_SESSION['emaili'] !== '' ? $_SESSION['emaili'] : $Name,
             'verified' => "YES",
+            // 'username' =>
         );
 
-        if (!empty($_SESSION['email'])) {
+        if (!empty($_SESSION['emaili'])) {
 
-            updateProfile($_SESSION['username'], $postData);
+            updateProfile($postData);
             echo '<script>alert("verified successfully!");</script>';
             header('Location: /Home_pages/home.php');
         }
@@ -96,7 +97,7 @@ use PHPMailer\PHPMailer\Exception;
 
 function sendEmail($email, $otp)
 {
-    require __DIR__ . '/../../../../Password_reset/vendor/autoload.php';
+    require __DIR__ . '/../../../Password_reset/vendor/autoload.php';
     $mail = new PHPMailer(true);
     try {
         $mail->SMTPDebug = SMTP::DEBUG_OFF;
@@ -251,7 +252,7 @@ function sendEmail($email, $otp)
         <div id="authorizeForm" class="verification-form">
             <form method="post" action="veified.php">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="emaili" required>
                 <button type="submit" name="authorizeSubmit">Submit</button>
             </form>
 

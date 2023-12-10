@@ -2,10 +2,12 @@
 include('server.php');
 //require(__DIR__.'/../login.php');
 include(__DIR__ . "/../Web_Design/DBconnection.php");
+$_SESSION['reciver'] = $_SESSION['username'];
 
 
 if (!isset($_SESSION['username'])) {
    header('Location: home.php');
+   $_SESSION['reciveer'] = $_SESSION['username'];
    exit();
 }
 $username = $_SESSION['username'];

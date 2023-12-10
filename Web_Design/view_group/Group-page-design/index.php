@@ -145,79 +145,75 @@ if (isset($_GET['variable1'])) {
                         $Mobile_number = $group["Mobile_number"];
                         $Privacie = $group["Privacie"];
                         $User_name = $group["User_Name"];
-                ?>
-                        <div class="box">
-                            <div class="img-container">
-                                <img alt="user photo" src="2.jpg">
-                                <h4 class="Host"><?php echo "$User_name" ?></h4>
+
+                        
+                        $added_member_query = "SELECT COUNT(group_member.member) as Member FROM group_member, group_details
+                        WHERE group_member.group_id = group_details.Group_ID and group_member.Group_ID= ?";
+                        $added_member_stmt = $conn->prepare($added_member_query);
+                        $added_member_stmt->bind_param("i", $Group_ID);
+                        $added_member_stmt->execute();
+                        $added_member_result = $added_member_stmt->get_result();
+
+                        if ($added_member_result) {
+                        $added_member_row = $added_member_result->fetch_assoc();
+                        $added_member = $added_member_row['Member'];
+
+                        if ($group['Member'] > intval($added_member))  {
+                            // Your comparison logic here
+
+            ?>
+                            <div class="box">
+                                <div class="img-container">
+                                    <img alt="user photo" src="<?php echo '/Home_pages/uploads/' . $group['prof_text']; ?>">
+                                    <h4 class="Host"><?php echo "$User_name" ?></h4>
+                                </div>
+                                <div class="content">
+                                    <h2><?php echo $Title ?></h2>
+                                    <h4>
+                                        <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
+                                        <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
+                                    </h4>
+                                    <p class="btn-area">
+                                        <a href="index.php?variable1= <?php echo  $group["Group_ID"]; ?>" id="requestButton">
+                                            <img src="add-group.png" class="icon_img" alt="">
+                                        </a>
+                                        <span class="btn2">Request</span>
+                                    </p>
+
+
+                                    </script>
+                                    <p class="text"><?php
+                                                    $aboutTour = $group["About_Tour"];
+                                                    $words = str_word_count($aboutTour, 1);
+                                                    $limitedWords = implode(' ', array_slice($words, 0, 10));
+                                                    echo $limitedWords;
+                                                    ?></p>
+                                    <p class="text">
+                                        <img src="gender.png" class="text_icon_img" alt="">
+                                        Looking for: <span class="yellow"><?php echo $Gender ?></span>
+                                        <img src="transportation.png" class="text_icon_img_2" alt="">
+                                        Travel By: <span class="yellow"><?php echo $group["Transport_1"] ?></span>
+                                    </p>
+                                    <p class="text">
+                                        <img src="add-group.png" class="text_icon_img" alt="">
+                                        Privacy: <span class="yellow"> <?php echo $group['Privacie']; ?> </span>
+                                        <img src="budget.png" class="text_icon_img_2" alt="">
+                                        Budget: <span class="yellow"><?php echo $group["Fare_1"] + $group["Fare_2"] + $group["Day"] * $group["Rent"] + $group["Other_Cost"] ?></span>
+                                    </p>
+                                    <p class="text">
+                                        <img src="people.png" class="text_icon_img" alt="">
+                                        Member: <span class="yellow"><?php echo $group["Member"] . "/" . $added_member; ?></span>
+                                        <img src="destination.png" class="text_icon_img_2" alt="">
+                                        Type of journey: <span class="yellow"><?php echo $Type_of_journey ?></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="content">
-                                <h2><?php echo $Title ?></h2>
-                                <h4>
-                                    <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
-                                    <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
-                                </h4>
-                                <p class="btn-area">
-                                    <a href="index.php?variable1= <?php echo  $group["Group_ID"]; ?>" id="requestButton">
-                                        <img src="add-group.png" class="icon_img" alt="">
-                                    </a>
-                                    <span class="btn2">APPLY</span>
-                                </p>
 
-
-                                <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                                <script>
-                                    document.getElementById('requestButton').addEventListener('click', function() {
-                                        // Get the values of the variables you want to send
-                                        var variable1 = "<?php echo  $group["Group_ID"]; ?>";
-
-                                        // Make an AJAX request
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: 'index.php', // Replace with the actual path to your PHP script
-                                            data: {
-                                                variable1: variable1
-                                            },
-                                            success: function(response) {
-                                                // Handle the response from the server
-                                                console.log(response);
-                                            },
-                                            error: function(error) {
-                                                // Handle errors
-                                                console.error('Error:', error);
-                                            }
-                                        });
-                                    }); -->
-                                </script>
-                                <p class="text"><?php
-                                                $aboutTour = $group["About_Tour"];
-                                                $words = str_word_count($aboutTour, 1);
-                                                $limitedWords = implode(' ', array_slice($words, 0, 10));
-                                                echo $limitedWords;
-                                                ?></p>
-                                <p class="text">
-                                    <img src="gender.png" class="text_icon_img" alt="">
-                                    Looking for: <span class="yellow"><?php echo $Gender ?></span>
-                                    <img src="transportation.png" class="text_icon_img_2" alt="">
-                                    Travel By: <span class="yellow"><?php echo $group["Transport_1"] ?></span>
-                                </p>
-                                <p class="text">
-                                    <img src="add-group.png" class="text_icon_img" alt="">
-                                    Privacy: <span class="yellow"> <?php echo $group['Privacie']; ?> </span>
-                                    <img src="budget.png" class="text_icon_img_2" alt="">
-                                    Budget: <span class="yellow"><?php echo $group["Fare_1"] + $group["Fare_2"] + $group["Day"] * $group["Rent"] + $group["Other_Cost"] ?></span>
-                                </p>
-                                <p class="text">
-                                    <img src="people.png" class="text_icon_img" alt="">
-                                    Member: <span class="yellow">5</span>
-                                    <img src="destination.png" class="text_icon_img_2" alt="">
-                                    Type of journey: <span class="yellow"><?php echo $Type_of_journey ?></span>
-                                </p>
-                            </div>
-                        </div>
-                <?php
+            <?php
+                        }
                     }
-                } else {
+                }
+            } else {
                     echo "No groups to display.";
                 }
                 ?>

@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'Itinerary' => isset($_POST["Itinerary"]) ? $_POST["Itinerary"] : "",
         'Mobile_number' => isset($_POST["Mobile_number"]) ? $_POST["Mobile_number"] : "",
         'Privacie' => isset($_POST["Privacies"]) ? $_POST["Privacies"] : "",
+        'Member' => isset($_POST["Member"]) ? $_POST["Member"] : "",
     );
    
 

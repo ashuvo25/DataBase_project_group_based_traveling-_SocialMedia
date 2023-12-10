@@ -156,7 +156,7 @@ function getChatList($loggedInUser)
 {
     global $conn;
 
-    $query = "SELECT DISTINCT u.name AS friend_name, MAX(m.timestamp) AS timestamp, u.username
+    $query = "SELECT DISTINCT u.name AS friend_name, MAX(m.timestamp) AS timestamp, u.username,u.prof_text
     FROM signups u
     JOIN personal_messages m ON u.username = m.sender_username OR u.username = m.receiver_username
     WHERE (m.sender_username = ? OR m.receiver_username = ?) AND u.username != ?
@@ -197,7 +197,7 @@ function getChatList($loggedInUser)
 
         return $friends;
     } else {
-        echo "0 results";
+        //echo "0 results";
         return null;
     }
 }
@@ -240,7 +240,7 @@ function getGroupList($loggedInUser)
 
         return $groups;
     } else {
-        echo "0 results";
+       // echo "0 results";
         return null;
     }
 }
@@ -257,7 +257,7 @@ function group_view()
 {
     global $conn;
 
-    $sql = "SELECT group_details.*, signups.name
+    $sql = "SELECT group_details.*, signups.name,signups.prof_text
             FROM group_details
             LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
             LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
@@ -278,7 +278,7 @@ function group_view()
         }
         return $groups;
     } else {
-        echo "0 results";
+       // echo "0 results";
         return null;
     }
 }
@@ -343,7 +343,7 @@ function select_profile_edit($username)
         }
         return $user;
     } else {
-        echo "0 results";
+       // echo "0 results";
         return null;
     }
 }
@@ -390,7 +390,8 @@ function updateProfile($FormData)
     $sql = rtrim($sql, ',');
 
 
-    $sql .= " WHERE `username`='$_SESSION[name]'";
+    $sql .= " WHERE `username` = '$_SESSION[username]'";
+
 
 
     $result = $conn->query($sql);
