@@ -373,13 +373,15 @@ nav{
 .box {
 	border-radius: 20px;
 	display: flex;
-	width: 99%;
+	width: 97%;
 	height: 210px;
 	overflow: hidden;
 	margin-bottom: 20px;
 	background: #072e43;
 	transition: all .6s ease;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	margin-left: 12px;
+	margin-bottom: 10px;
 }
 .content_h2{
 	color: #f1a22c;
