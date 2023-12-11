@@ -35,14 +35,14 @@ function insertGroup($FormData)
         $field = mysqli_real_escape_string($conn, $field);
         $value = mysqli_real_escape_string($conn, $value);
 
-        $fields .= "`$field`,";
+        $fields .= "$field,";
         $values .= "'$value',";
     }
 
     $fields = rtrim($fields, ',');
     $values = rtrim($values, ',');
 
-    $sql = "INSERT INTO `group_details` ($fields) VALUES ($values)";
+    $sql = "INSERT INTO group_details ($fields) VALUES ($values)";
 
     if ($conn->query($sql)) {
         $group_id = $conn->insert_id;
@@ -63,7 +63,7 @@ function insertGroup($FormData)
         if ($insertStmt->execute()) {
             $groupid = NULL;
             header('Location: index.php');
-        } 
+        }
         if ($conn->query($sql_2)) {
             // echo "Insert successful";
         } else {
@@ -219,15 +219,16 @@ function getGroupList($loggedInUser)
 {
     global $conn;
 
-    $query = "SELECT DISTINCT gd.Group_ID, CONCAT(gd.FromLocation, '_', gd.ToLocation) AS group_name, gd.Start_date
-              FROM group_member gm
-              JOIN group_details gd ON gm.group_id = gd.Group_ID
-              WHERE gm.member = ? AND gm.group_id IS NOT NULL
-              GROUP BY gd.Group_ID
-              ORDER BY gd.Start_date DESC";
+    $query = "SELECT DISTINCT gd.Group_ID, Title AS group_name, gd.Start_date
+          FROM group_member gm
+          JOIN group_details gd ON gm.group_id = gd.Group_ID
+          WHERE gm.member = ? AND gm.group_id IS NOT NULL AND gm.request = 'YES'
+          GROUP BY gd.Group_ID
+          ORDER BY gd.Start_date DESC";
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $loggedInUser);
+
     $stmt->execute();
 
     // Check for errors
@@ -335,7 +336,7 @@ function updatePassword($username, $newPassword)
     global $conn;
 
 
-    $sql = "UPDATE `signups` SET `passwords`=? WHERE `username`=?";
+    $sql = "UPDATE signups SET passwords=? WHERE username=?";
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
@@ -412,7 +413,7 @@ function updateProfile($FormData)
     $excludeFields = ['currentPassword', 'newPassword', 'repeatNewPassword'];
 
 
-    $sql = "UPDATE `signups` SET ";
+    $sql = "UPDATE signups SET ";
 
     foreach ($FormData as $field => $value) {
 
@@ -426,14 +427,14 @@ function updateProfile($FormData)
 
 
 
-        $sql .= "`$field`='$value',";
+        $sql .= "$field='$value',";
     }
 
 
     $sql = rtrim($sql, ',');
 
 
-    $sql .= " WHERE `username` = '$_SESSION[username]'";
+    $sql .= " WHERE username = '$_SESSION[username]'";
 
 
 

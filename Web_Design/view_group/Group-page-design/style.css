@@ -102,12 +102,22 @@ nav{
   margin-left: 10px;
  
 }
-
-.profile img{
-  width: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-}
+.profile .profile-link img{
+	width: 40px;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 0 3px #00ff59;
+  }
+  .profile {
+	display: flex;
+	align-items: center;
+  }
+  .profile_1 .profile-link img{
+	width: 40px;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 0 3px red;
+  }
 .profile {
   display: flex;
   align-items: center;
@@ -182,6 +192,12 @@ nav{
 	cursor: pointer;
 	border-radius: 2px;
 	font-weight: bold;
+}
+.Group_name{
+	color: #780e5c;
+}
+.Date{
+	color: #00000051;
 }
 .group_create{
 	text-decoration: none;
@@ -365,6 +381,9 @@ nav{
 	transition: all .6s ease;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+.content_h2{
+	color: #f1a22c;
+}
 
 .box:hover {
 	border: none;
@@ -385,21 +404,17 @@ nav{
 .Host {
     position:absolute;
     bottom: 5px;
-    margin-left: 30%;
-    color: rgb(255, 255, 255); /* Adjust the color as needed */
-    font-size: 17px; /* Adjust the font size as needed */
+    margin-left: 16%;
+    color: rgb(255, 255, 255);
+    font-size: 12px; 
 }
 
-
-
 .box h3 {
-	color: #070707;
+	color: #ffffff;
 }
 .Date{
 	font-size: 12px;
-
 }
-
 .content {
 	padding: 20px;
 	width: 100%;
@@ -459,7 +474,7 @@ nav{
 }
 
 .text {
-	color: black;
+	color: rgb(255, 255, 255);
 	font-size: 17px;
 	display: flex;
 	margin-top: 7px;
@@ -485,7 +500,7 @@ nav{
 }
 
 .yellow {
-	color: rgb(76, 76, 17);
+	color: rgb(33, 147, 10);
 	font-weight: bold;
 	font-size: 17px;
 	margin-left: 3px;

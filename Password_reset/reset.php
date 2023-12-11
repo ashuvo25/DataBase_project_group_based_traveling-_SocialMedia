@@ -34,39 +34,45 @@
                 $token = bin2hex(random_bytes(16));
                 $token_hash = hash("sha256" ,$token);
 
-                $expire = date("Y-m-d H:i:s", time() + 60*30) ;
+            
                 $sql = "UPDATE signups 
-                        SET reset_token_hash = ?,
-                            reset_token_expire = ? 
-                            WHERE email = ?";
+                SET reset_token_hash = ?
+                WHERE email = ?";
+        
                 $stmt = $conn ->prepare($sql);
-                $stmt ->bind_param('sss', $token_hash , $expire , $email );
-                $stmt ->execute();
+                $stmt ->bind_param('ss', $token_hash , $email );
+                 $stmt ->execute();
                 
                 if($conn ->affected_rows){
 
                     $mail = require __DIR__ ."/mailer.php";
+                    if (!$mail) {
+                        die("Failed to include mailer.php");
+                    }
+                    
                     $mail->setFrom("forwebsitesheet@gmail.com");
                     $mail ->addAddress($email);
                     $mail ->Subject ="Reset password link";
                     $mail ->Body = <<<END
-
-                    Click <a href = "http://localhost:3000/login_signup_page/Password_reset/reset_pass.php?token=$token">here </a>
+                    You can reset Password :
+                    Click <a href = "http://localhost:3000/Password_reset/reset_pass.php?token=$token">here </a>
                     to reset your password.
                     
                     END;
-                    try{
+                    try {
                         $mail->send();
-                    }catch(Exception $e){
-                        echo"Message could not send .Mailer error:{$mail->ErrorInfo}";
+                        // echo "Email sent successfully!";
+                    } catch (Exception $e) {
+                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
+                    
 
                 }
 
                 if ($stmt->execute()) {
                     echo "<div class='message' style='color: green;'>
                     <p>Email send successfully !</p> </div> <br>";
-                    echo"<a href='/login_signup_page/login.php'> <button class = 'btn'> Login Now </button></a>";
+                    echo"<a href='/login.php'> <button class = 'btn'> Login Now </button></a>";
                     exit();
                 } else {
                     echo "Error: " . $stmt->error;
@@ -95,7 +101,7 @@
                  </div>
 
                  <div class="links">
-                    <br>Already have an account ? <a href="/login_signup_page/login.php">Login</a>
+                    <br>Already have an account ? <a href="/login.php">Login</a>
 
                     
                  </div>

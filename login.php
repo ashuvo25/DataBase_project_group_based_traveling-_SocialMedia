@@ -43,7 +43,7 @@ include("php/servers.php");
 
                  <div class="links">
                     <br>Don't have account ? <a href="Signup.php">Sign Up</a>
-                    <br><br><a href="/login_signup_page/Password_reset/reset.php">Forgot password?</a>
+                    <br><br><a href="/Password_reset/reset.php">Forgot password?</a>
 
 
                  </div>

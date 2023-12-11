@@ -105,9 +105,53 @@ header a{
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
+    margin-right: 10px;
+    width: 220px;
 }
 
+.links_section1{
+    width: 230px;
+    padding: 8px;
+    border: 1px solid black;
+    height: 300px;
+    margin-left: 10px;
+    
+    overflow: scroll;
+}
 
+.section_req{
+  display: flex;
+  align-items: center;
+}
+.req_link{
+  text-decoration: none;
+  cursor: pointer;
+  color: #33ff8c;
+}
+.req_email{
+  color: azure;
+}
+.section_name span{
+  color: #00c2ff;
+  /* border-bottom: 1px solid #000000; */
+  text-decoration: underline;
+  
+}
+.img_friend{
+    border-radius: 50%;
+}
+.section_name {
+  padding: 5px;
+  gap: 5px;
+}
+.req_link span{
+  padding: 3px;
+  margin-bottom: 5px;
+}
+.req_link .req_email{
+  padding: 3px;
+  margin-top: 5px;
+}
 .icon_btn {
     width: 100%; 
     margin-bottom: 10px;

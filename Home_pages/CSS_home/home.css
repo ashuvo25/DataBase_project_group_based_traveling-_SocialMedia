@@ -106,8 +106,19 @@ nav{
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 0 3px #00ff59;
 }
 .profile {
+  display: flex;
+  align-items: center;
+}
+.profile_1 img{
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px red;
+}
+.profile_1 {
   display: flex;
   align-items: center;
 }

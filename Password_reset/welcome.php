@@ -26,7 +26,7 @@
         <p><h2>Password reset successfully!</h2></p>
     </div>
     <form method="post" action="process-reset-password.php">
-        <a href="/login_signup_page/login.php"> Login now! </a>
+        <a href="/login.php"> Login now! </a>
     </form>
 </body>
 </html>

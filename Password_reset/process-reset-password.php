@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($passn) < 8) {
         echo "Password must be at least 8 characters";
     } else {
-        $token_hash = hash("sha256", $passn);
+        $token_hash = $passn;
 
         // Check if the token already exists
-        $checkSql = "SELECT COUNT(*) FROM signups WHERE reset_token_hash = ?";
-        $checkStmt = $conn->prepare($checkSql);
-        $checkStmt->bind_param("s", $token_hash);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
+        // $checkSql = "SELECT COUNT(*) FROM signups  ";
+        // $checkStmt = $conn->prepare($checkSql);
+        // $checkStmt->bind_param("s", $token_hash);
+        // $checkStmt->execute();
+        // $checkResult = $checkStmt->get_result();
 
         $query = "SELECT * FROM signups WHERE username = ?";
         $queryStmt = $conn->prepare($query);
@@ -36,12 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $queryStmt->execute();
         $queryResult = $queryStmt->get_result();
 
-        if ($checkResult->fetch_row()[0] > 0) {
-            echo "Token already used";
-        } elseif ($queryResult->num_rows === 0) {
+        // if ($checkResult->fetch_row()[0] > 0) {
+        //     echo "Token already used";
+        // } else
+        if ($queryResult->num_rows === 0) {
             echo "Username not found"; // Check if the username exists
         } else {
-            $updateSql = "UPDATE signups SET passwords=?, reset_token_hash=NULL, reset_token_expire=NULL WHERE username = ?";
+            $updateSql = "UPDATE signups SET passwords=? WHERE username = ?";
             $updateStmt = $conn->prepare($updateSql);
             $updateStmt->bind_param("ss", $passn, $username);
 

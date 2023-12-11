@@ -11,6 +11,8 @@ if (!isset($_SESSION['username'])) {
    exit();
 }
 $username = $_SESSION['username'];
+$_SESSION['groupID']=" ";
+$_SESSION['view_group']="";
 // echo  $username;
 $link = select_profile_edit($username);
 ?>
@@ -43,8 +45,8 @@ $link = select_profile_edit($username);
             <p class="subtitie">Made Trip With Us!</p>
          </div>
          <ul>
-            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
-            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list"> <a href="#"  ><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
+            <li class="nav_list" id="connectButton"> <a href="/Home_pages/Pagess/Friends/friends.php" id="connectButton"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
@@ -58,14 +60,21 @@ $link = select_profile_edit($username);
          ?>
 
          <!-- Home_pages\CSS_home\Pagess\verification -->
-         <div class="profile">
-            <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
-            <img src="<?php echo isset($link['image']) ? 'uploads/' . $link['image'] : 'path/to/default/image.jpg'; ?>" alt="" height="40px" width="40px" class="img_prof">
-
-
-               <p><?php echo $name; ?></p>
-            </a>
-         </div>
+         <?php if ($link['verified'] == "YES") { ?>
+            <div class="profile">
+               <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+                  <img src="<?php echo isset($link['image']) ? 'uploads/' . $link['image'] : 'path/to/default/image.jpg'; ?>" alt="" height="40px" width="50px" class="img_prof">
+                  <p><?php echo $name; ?></p>
+               </a>
+            </div>
+         <?php } else { ?>
+            <div class="profile_1">
+               <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+                  <img src="<?php echo isset($link['image']) ? 'uploads/' . $link['image'] : 'path/to/default/image.jpg'; ?>" alt="" height="40px" width="50px" class="img_prof">
+                  <p><?php echo $name; ?></p>
+               </a>
+            </div>
+         <?php } ?>
 
       </div>
    </nav>
@@ -422,26 +431,26 @@ $link = select_profile_edit($username);
                var likeButton = $(".like[data-post-id = " + post_id + "]");
                var dislikeButton = $(".dislike[data-post-id = " + post_id + "]");
 
-               if (response == 'newlike') {
+               if (response === 'newlike') {
                   likes.html(likesCount + 1);
                   likeButton.addClass('selected');
-               } else if (response == 'newdislike') {
+               } else if (response === 'newdislike') {
                   dislikes.html(dislikesCount + 1);
                   dislikeButton.addClass('selected');
-               } else if (response == 'changetolike') {
+               } else if (response === 'changetolike') {
                   likes.html(parseInt($('.likes_count' + post_id).text()) + 1);
                   dislikes.html(parseInt($('.dislikes_count' + post_id).text()) - 1);
                   likeButton.addClass('selected');
                   dislikeButton.removeClass('selected');
-               } else if (response == 'changetodislike') {
+               } else if (response === 'changetodislike') {
                   likes.html(parseInt($('.likes_count' + post_id).text()) - 1);
                   dislikes.html(parseInt($('.dislikes_count' + post_id).text()) + 1);
                   likeButton.removeClass('selected');
                   dislikeButton.addClass('selected');
-               } else if (response == 'deletelike') {
+               } else if (response ==='deletelike') {
                   likes.html(parseInt($('.likes_count' + post_id).text()) - 1);
                   likeButton.removeClass('selected');
-               } else if (response == 'deletedislike') {
+               } else if (response === 'deletedislike') {
                   likes.html(parseInt($('.dislikes_count' + post_id).text()) - 1);
                   dislikeButton.removeClass('selected');
                }
@@ -449,6 +458,33 @@ $link = select_profile_edit($username);
 
          })
       })
+
+
+      document.addEventListener('DOMContentLoaded', function () {
+    const connectButton = document.getElementById('connectButton');
+    const userListContainer = document.getElementById('search-result');
+
+    connectButton.addEventListener('click', function () {
+       
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                   
+                    userListContainer.innerHTML = xhr.responseText;
+                } else {
+                    console.error('Error fetching users:', xhr.status);
+                }
+            }
+        };
+
+        xhr.open('GET', 'Home_pages/Pagess/Friends/friends.php');
+        xhr.send();
+    });
+});
+
+
    </script>
 </body>
 
