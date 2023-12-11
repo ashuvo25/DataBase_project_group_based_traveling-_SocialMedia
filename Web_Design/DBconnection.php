@@ -51,6 +51,19 @@ function insertGroup($FormData)
         $email = $_SESSION['email'];
 
         $sql_2 = "INSERT INTO group_signups (username, email, Group_ID) VALUES ('$_SESSION[username]', '$email', $group_id)";
+
+        $insertSql = "INSERT INTO group_member(group_id, member, request) VALUES (?, ?, ?)";
+        $insertStmt = $conn->prepare($insertSql);
+
+        // Create a variable for the "NO" value
+        $requestValue = "YES";
+
+        $insertStmt->bind_param("iss", $group_id, $_SESSION['username'], $requestValue);
+
+        if ($insertStmt->execute()) {
+            $groupid = NULL;
+            header('Location: index.php');
+        } 
         if ($conn->query($sql_2)) {
             // echo "Insert successful";
         } else {
@@ -240,7 +253,7 @@ function getGroupList($loggedInUser)
 
         return $groups;
     } else {
-       // echo "0 results";
+        // echo "0 results";
         return null;
     }
 }
@@ -278,11 +291,41 @@ function group_view()
         }
         return $groups;
     } else {
-       // echo "0 results";
+        // echo "0 results";
         return null;
     }
 }
 
+
+function host_group_view($username)
+{
+    global $conn;
+
+    $sql = "SELECT group_details.*, signups.name,signups.prof_text,group_signups.username
+    FROM group_details
+    LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
+    LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
+    WHERE  group_signups.username='$username' 
+    ORDER BY group_signups.timestamp DESC, group_details.Privacie; ";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $groups = array(); // Initialize an array to store multiple rows
+        while ($row = $result->fetch_assoc()) {
+            $group = array();
+            foreach ($row as $key => $value) {
+                $group[$key] = $value; // Map the attribute name to its value
+            }
+            $group["User_Name"] = $row["name"]; // Add the "User_Name" attribute
+            $groups[] = $group; // Append the current row to the array
+        }
+        return $groups;
+    } else {
+        // echo "0 results";
+        return null;
+    }
+}
 
 
 
@@ -343,7 +386,7 @@ function select_profile_edit($username)
         }
         return $user;
     } else {
-       // echo "0 results";
+        // echo "0 results";
         return null;
     }
 }
@@ -399,5 +442,58 @@ function updateProfile($FormData)
     if ($result) {
     } else {
         echo "Error updating profile: " . $conn->error;
+    }
+}
+
+function group_details($groupid)
+{
+    global $conn;
+
+    $sql = "SELECT group_details.*, signups.*
+    FROM group_details
+    LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
+    LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
+    WHERE group_details.Group_ID=$groupid";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of the first row
+        $row = $result->fetch_assoc();
+
+        // Use array_combine to merge column names with their respective values
+        return array_combine(array_keys($row), $row);
+    } else {
+        // echo "0 results";
+        return null;
+    }
+}
+
+
+function add_request($groupid)
+{
+    global $conn;
+
+    $sql = "SELECT signups.name, signups.username, group_member.group_id
+            FROM group_member, signups
+            WHERE group_member.member = signups.username 
+            AND group_member.group_id = $groupid 
+            AND group_member.request = 'NO'";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $rows = array();
+
+        // Loop through all rows in the result set
+        while ($row = $result->fetch_assoc()) {
+            // Add each row to the $rows array
+            $rows[] = $row;
+        }
+
+        return $rows;
+    } else {
+        //echo "0 results";
+        return null;
     }
 }

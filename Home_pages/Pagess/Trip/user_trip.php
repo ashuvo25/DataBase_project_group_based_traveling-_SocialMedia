@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 
@@ -12,15 +10,13 @@
 <?php
 include(__DIR__.'/../../../Web_Design/DBconnection.php');
 
-$group_id ='';
+$group_id = 5;
 
-if (isset($_GET["groupid"])) {
-    $group_id = $_GET["groupid"];
+if(isset($_GET["group_id"])){
+    $group_id=$_GET["group_id"];
 }
 
 $view_group = group_details($group_id)
-
-
 
 ?>
 
@@ -56,42 +52,9 @@ $view_group = group_details($group_id)
                 <button class="icon_btn baa"><img src="/Home_pages/image/icons/favourite.png" alt="" width="25px">Add to Favorites</button> -->
                 <button class="icon_btn baa" id="messageButton"><img src="/Home_pages/image/icons/message.png" alt="" width="25px">Send Message</button>
                 <button class="icon_btn baa2"><img src="/Home_pages/image/icons/comments.png" alt="" width="25px">Comment</button>
-                <button class="icon_btn baa1"><img src=/Home_pages/image/icons/click.png" alt="" width="25px">Edit Group</button>
-                <button class="icon_btn baa3" id="requestButton"><img src="/Home_pages/image/icons/wave.png" alt="" width="25px">Request</button>
-
-
+              
+                
             </div>
-            <?php
-            $details = add_request($view_group["Group_ID"]);
-
-            if ($details !== null) {
-                echo '<div class="notification">';
-                echo '<ul class="friend-request-list">';
-
-                foreach ($details as $detail) {
-                    echo '<li class="friend-request">';
-                    echo '<div class="friend-request-header">';
-                    echo '<div class="friend-request-profile">';
-                    echo '<img src="' . $detail['profile_photo'] . '" alt="Profile Photo">';
-                    echo '</div>';
-                    echo '<div class="friend-request-info">';
-                    echo '<p>' . $detail['name'] . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '<div class="friend-request-buttons">';
-                    echo '<button class="accept-button">Accept</button>';
-                    echo '<button class="reject-button">Reject</button>';
-                    echo '</div>';
-                    echo '</li>';
-                }
-
-                echo '</ul>';
-                echo '</div>';
-            } else {
-                echo 'No friend requests.';
-            }
-            ?>
-
         </div>
 
         <div class="extras_item">
@@ -104,8 +67,7 @@ $view_group = group_details($group_id)
             <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
             <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
         </div>
-
-
+        
         <table>
             <thead>
                 <tr>
@@ -162,7 +124,7 @@ $view_group = group_details($group_id)
                     <th></th>
                     <th>Food</th>
                     <th>Other</th>
-
+                    
                 </tr>
             </thead>
             <tbody>
@@ -170,117 +132,23 @@ $view_group = group_details($group_id)
                     <td>Expance</td>
                     <td><?php echo $view_group["Food_Expenditure"] ?></td>
                     <td><?php echo $view_group["Other_Cost"] ?></td>
-
+                   
                 </tr>
                 <!-- Add more rows as needed -->
             </tbody>
         </table>
     </div>
-
+    
 </body>
+<script>
+    // JavaScript code to handle button click
+    document.getElementById('messageButton').addEventListener('click', function () {
+        // Get the value you want to send (replace 'valueToBeSent' with the actual value)
+        var valueToBeSent = '<?php echo $view_group["Group_ID"] ?>';
 
+        // Navigate to another page and send the value as a query parameter
+        window.location.href = '/Web_Design/Chat_Box/group_index.php?value=' + encodeURIComponent(valueToBeSent);
+    });
+</script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title> </title>
-    <link rel="stylesheet" href="trip.css">
-</head>
-
-<body>
-    <div class="trip_main">
-        <header>
-            <p> <a href="#"> <img src="/Home_pages/image/icons/next.png" alt="" width="25px" class="back_logo">BACK TO TRIPS</a>
-            <h4> I am seeking to go buddy to china</h4>
-            </p>
-
-
-        </header>
-        <div class="img_links">
-            <div class="image_section">
-                <div class="image_name">
-                    <img src="/Home_pages/uploads/0123.jpg" alt="" height="230px">
-                    <p class="name">LOVE.LOVE</p>
-                </div>
-
-                <div class="text_side">
-                    <h3>NAME </h3>
-                    <p class="date" >15.12.2023 - 19.12.2023</p>
-                    <p class="country" ><img src="/Home_pages/image/icons/flag.png"  alt="" width="25px" > country</p>
-                    <p class="about" >Lorem ipsum dolor sit amet consectetur,
-                        a voluptatibus molestias illo eveniet
-                        quidem minima?</p>
-                </div>
-
-            </div>
-
-            <div class="links_section">
-                <button class="icon_btn baa" ><img src="/Home_pages/image/icons/message.png" alt="" width="25px">Send Message</button>
-                <button class="icon_btn baa1"><img src="/Home_pages/image/icons/click.png" alt="" width="25px">Join this trip</button>
-                <button class="icon_btn baa2"><img src="/Home_pages/image/icons/comments.png" alt="" width="25px">Comment</button>
-                <button class="icon_btn baa3"><img src="/Home_pages/image/icons/wave.png" alt="" width="25px">Send a wave</button>
-                <button class="icon_btn baa"><img src="/Home_pages/image/icons/favourite.png" alt="" width="25px">Add to Favorites</button>
-            </div>
-        </div>
-
-        <div class="extras_item">
-            <p> <img src="/Home_pages/image/icons/split.png" alt="" width="25px"> split costs : yes</p>
-            <p> <img src="/Home_pages/image/icons/money-bag.png" alt="" width="25px"> Budget : 1000$</p>
-            <p> <img src="/Home_pages/image/icons/journey_type.png" alt="" width="25px"> Type Of Journey : BUS</p>
-            <p> <img src="/Home_pages/image/icons/sex.png" alt="" width="25px"> Looking for : MALE</p>
-            <p> <img src="/Home_pages/image/icons/meeting.png" alt="" width="25px"> Meet Before Trip: CHOLO GHURI</p>
-            <p> <img src="/Home_pages/image/icons/meeting.png" alt="" width="25px"> Meet Before Trip: CHOLO GHURI</p>
-            <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
-            <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
-        </div>
-    </div>
-</body>
-
-</html> -->
-
-
-
-

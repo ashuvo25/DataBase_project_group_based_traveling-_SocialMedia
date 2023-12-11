@@ -32,20 +32,22 @@ if (isset($_GET['variable1'])) {
         echo "<script>alert('Your request has already been sent.');</script>";
     } else {
         
-        $insertSql = "INSERT INTO `group_member`(`group_id`, `member`) VALUES (?, ?)";
-        $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->bind_param("is", $groupid, $USERNAME);
+      $insertSql = "INSERT INTO group_member(group_id, member, request) VALUES (?, ?, ?)";
+      $insertStmt = $conn->prepare($insertSql);
 
-        if ($insertStmt->execute()) {
-            
-            $groupid =NULL;
-            header('Location: index.php');
-        } else {
-            echo "Error: " . $insertSql . "<br>" . $insertStmt->error;
-        }
+      // Create a variable for the "NO" value
+      $requestValue = "NO";
 
-        
-        $insertStmt->close();
+      $insertStmt->bind_param("iss", $groupid, $USERNAME, $requestValue);
+
+      if ($insertStmt->execute()) {
+          $groupid = NULL;
+          header('Location: index.php');
+      } else {
+          echo "Error: " . $insertSql . "<br>" . $insertStmt->error;
+      }
+
+      $insertStmt->close();
     }
 
     
