@@ -60,14 +60,16 @@ function insertGroup($FormData)
 
         $insertStmt->bind_param("iss", $group_id, $_SESSION['username'], $requestValue);
 
+        
+        if ($conn->query($sql_2)) {
+            // echo "Insert successful";
+           // header("Location: Home_pages/Pagess/Trip/trip.php ? groupid= $group_id");
+        } else {
+            echo "Error inserting into group_signups: " . $conn->error;
+        }
         if ($insertStmt->execute()) {
             $groupid = NULL;
             header('Location: index.php');
-        }
-        if ($conn->query($sql_2)) {
-            // echo "Insert successful";
-        } else {
-            echo "Error inserting into group_signups: " . $conn->error;
         }
     } else {
         echo "Error inserting into group: " . $conn->error;
@@ -495,6 +497,40 @@ function add_request($groupid)
         return $rows;
     } else {
         //echo "0 results";
+        return null;
+    }
+}
+
+function onlymember($username)
+{
+    global $conn;
+
+    // Using a prepared statement to prevent SQL injection
+    $sql = "SELECT group_details.*
+    FROM group_details
+    LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
+    LEFT JOIN group_member ON group_member.group_id = group_details.Group_ID
+                           AND group_member.member = ?
+    WHERE !(group_member.member = group_signups.username AND group_member.group_id = group_signups.Group_ID)
+          AND group_member.request = 'YES'
+    ORDER BY group_signups.timestamp DESC, group_details.Privacie ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username); // Assuming $username is a string
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $groups = array();
+        while ($row = $result->fetch_assoc()) {
+            $group = array();
+            foreach ($row as $key => $value) {
+                $group[$key] = $value;
+            }
+            $groups[] = $group;
+        }
+        return $groups;
+    } else {
         return null;
     }
 }

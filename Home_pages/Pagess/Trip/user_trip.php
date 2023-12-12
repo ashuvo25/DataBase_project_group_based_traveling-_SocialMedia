@@ -15,7 +15,11 @@ $group_id = 5;
 if(isset($_GET["group_id"])){
     $group_id=$_GET["group_id"];
 }
+$group_id =0;
 
+if(isset($_GET["Group_ID"])){
+    $group_id=$_GET["Group_ID"];
+}
 $view_group = group_details($group_id)
 
 ?>
@@ -147,7 +151,7 @@ $view_group = group_details($group_id)
         var valueToBeSent = '<?php echo $view_group["Group_ID"] ?>';
 
         // Navigate to another page and send the value as a query parameter
-        window.location.href = '/Web_Design/Chat_Box/group_index.php?value=' + encodeURIComponent(valueToBeSent);
+        window.location.href = '/Web_Design/Chat_Box/group_index.php?receiver=' + encodeURIComponent(valueToBeSent);
     });
 </script>
 

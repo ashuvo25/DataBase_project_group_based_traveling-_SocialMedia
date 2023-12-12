@@ -101,6 +101,21 @@ nav{
   margin-left: 10px;
  
 }
+.friend_req{
+  width: 99%;
+  border: 1px dolis black;
+  height: 250px;
+  margin-top: 25px;
+}
+.req{
+  font-size: 24px;
+  color: #fff;
+}
+.requests{
+  width: 100%;
+  height: 150px;
+  overflow: scroll;
+}
 .profile .profile-link img{
 	width: 40px;
 	border-radius: 50%;

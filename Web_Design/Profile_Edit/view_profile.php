@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 
-include(__DIR__. "/../DBconnection.php");
+include(__DIR__ . "/../DBconnection.php");
 
 if (!isset($_SESSION['username'])) {
   header('location: Home_index.php');
@@ -15,7 +15,7 @@ $user = $username;
 
 if (isset($_GET['username'])) {
   $user = $_GET['username'];
-  header('location: index.php');
+  //header('location: index.php');
 }
 
 $userInfo = select_profile_edit($user);
@@ -65,11 +65,6 @@ $conn->close();
             <div class="upload">
               <img id="image" src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" width="120px" height="120px" class="prof_imgs" />
 
-              <div class="rightRound" id="upload">
-                <input type="file" name="fileImg" id="fileImg" accept=".jpg, .jpeg, .png">
-
-                <i class="fa fa-camera"></i>
-              </div>
               <div class="leftRound" id="cancel" style="display: none;">
                 <i class="fa fa-times"></i>
               </div>
@@ -87,7 +82,8 @@ $conn->close();
         <ul class="about">
           <li><span>4,073</span>Followers</li>
           <li><span>322</span>Following</li>
-          <li><span>200,543</span>Attraction</li>
+          <li><span>200,543</span>Hosted</li>
+          <li><span>4</span>Tour</li>
         </ul>
 
         <div class="content">
@@ -112,7 +108,6 @@ $conn->close();
             <li><a id="showPhotos" href="#">photos</a></li>
             <li><a id="showGroups" href="#">Hosting</a></li>
             <li><a id="showAllGroups" href="#">Groups</a></li>
-            <li><a href="index.php">Edit</a></li>
           </ul>
           <button>Follow</button>
         </nav>
@@ -157,10 +152,10 @@ $conn->close();
                     <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
                     <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
-                  <a href="/Home_pages/Pagess/Trip/trip.php?groupid=<?php echo $Group_ID; ?>">
+                  <a href="">
                     <p class="btn-area">
                       <!-- <a href=""><img src="add-group.png" class="icon_img" alt=""></a> -->
-                      <span class="btn2">Dashboard</span>
+                      <span class="btn2"></span>
                     </p>
                   </a>
                   <p class="text"><?php
@@ -228,11 +223,11 @@ $conn->close();
                     <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
                     <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
-                  <a href="/Home_pages/Pagess/Trip/user_trip.php?Group_ID=<?php echo $Group_ID; ?>">
+                  <a href="">
 
                     <p class="btn-area">
                       <!-- <a href=""><img src="add-group.png" class="icon_img" alt=""></a> -->
-                      <span class="btn2">Dashboard</span>
+                      <span class="btn2"></span>
                     </p>
                   </a>
                   <p class="text"><?php
@@ -311,6 +306,7 @@ $conn->close();
         groupsDiv.style.display = "none";
         allGroupsDiv.style.display = "grid";
       });
+      
     });
   </script>
 

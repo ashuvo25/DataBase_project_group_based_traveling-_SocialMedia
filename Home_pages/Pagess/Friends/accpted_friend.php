@@ -31,8 +31,6 @@ $univ = [];
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 
@@ -118,101 +116,19 @@ $univ = [];
                </button>
             </div>
          </form>
+
+         <div class="friend_req">
+             <header class="req" >Requests</header>
+             <div class="requests">
+   
+</div>
+         </div>
       </div>
 
       <div class="main_sidebar">
-         <?php
-         if (!empty($searchResults)) {
-            
-               foreach ($searchResults as $result) {
-
-                  $userId = $result['user_id'];
-                  $userName = $result['username'];
-                  $userImage = $result['prof_text'];
-                  
-                  $userEmail = $result['verified_mail'];
-
-                  $emailParts = explode('@bscse.', $userEmail);
-                  $domain = isset($emailParts[1]) ? $emailParts[1] : '';
-          
-                  // Check if the domain is in the univ_domain table
-                  $sql = "SELECT university FROM univ_domain WHERE domain = '$domain'";
-                  $universityResult = mysqli_query($conn, $sql);
-          
-                  if ($universityResult) {
-                      $universityData = mysqli_fetch_assoc($universityResult);
-                      $universityName = isset($universityData['university']) ? $universityData['university'].' , Verified' : 'Not verified';
-                  } else {
-                      $universityName = 'Not verified';
-                  }
-                  // Home_pages\uploads
-                  echo '<div class="search-result">';
-                  echo'<div class = "section_req">';
-                 echo'<a href = "#" class="req_link" >';
-                  echo '<img src="/Home_pages/uploads/' . $userImage . '"  width="50px" height="50px" class="img_friend" >';
-                  echo'<div class = "section_name">';
-                  echo '<span>' . $userName . '</span>';
-                  echo '<p class ="req_email" >' .  $universityName . '</p>';
-                  echo'</a>';
-                  echo'</div>';
-                  echo'</div>';
-                 // Add this part inside your loop where you display search results
-echo '<button class="connect-button" onclick="sendFriendRequest(' . $userId . ')">Connect</button>';
-
-                  echo '</div>';
-               }
-           
-         }else {
-            $query = "SELECT username, verified_mail, prof_text FROM signups";
-            $result = mysqli_query($conn, $query);
+       
         
-            if ($result) {
-                // Display the list of users
-                while ($row = mysqli_fetch_assoc($result)) {
-                  $userEmail = $row['verified_mail'];
-
-                  $emailParts = explode('@bscse.', $userEmail);
-                  $domain = isset($emailParts[1]) ? $emailParts[1] : '';
-          
-                  // Check if the domain is in the univ_domain table
-                  $sql = "SELECT university FROM univ_domain WHERE domain = '$domain'";
-                  $universityResult = mysqli_query($conn, $sql);
-          
-                  if ($universityResult) {
-                      $universityData = mysqli_fetch_assoc($universityResult);
-                      $universityName = isset($universityData['university']) ? $universityData['university'].' , Verified' : 'Not verified';
-                  } else {
-                      $universityName = 'Not verified';
-                  }
-                  //   $userId = $row['user_id'];
         
-                    // Output specific columns from the 'signups' table
-                    echo '<div class="search-result">';
-                  
-                    echo '<div class="section_req">';
-                    echo '<img src="/Home_pages/uploads/' . $row['prof_text'] . '" width="50px" height="50px" class="img_friend">';
-                    echo '<a href="#" class="req_link">';
-
-                 
-                    
-                    echo '<div class="user-detail">';
-                    echo '<span class="section_name" style="text-decoration: underline;color:#00c2ff">' . $row['username'] . '</span>';
-                  
-                    echo '<p class="req_email">' . $universityName . '</p>';
-                    echo '</div>';
-                    
-
-                    echo '</a>';
-                    echo '</div>';
-                    echo '<button class="connect-button" >Connect</button>';
-                    echo '</div>';
-                }
-            } else {
-                echo 'Error fetching users from the database';
-            }
-        }
-        
-         ?>
       </div>
 
       <!-- -----------------------------------Right Side------------------------------------------- -->
@@ -314,6 +230,42 @@ echo '<button class="connect-button" onclick="sendFriendRequest(' . $userId . ')
          }
       });
    </script>
+   <script>
+    function sendFriendRequest(receiverId) {
+        // Use AJAX to send friend request to the server
+        $.ajax({
+            url: 'friends.php', // Replace with the actual filename
+            type: 'POST',
+            data: { action: 'sendFriendRequest', receiverId: receiverId },
+            success: function (response) {
+                // Display a notification to the sender
+                if (response.success) {
+                    swal("Friend Request Sent!", "Your friend request has been sent.", "success");
+                } else {
+                    swal("Error", "Something went wrong. Please try again.", "error");
+                }
+            }
+        });
+    }
+
+    function handleFriendRequest(action, requestId) {
+        // Use AJAX to send accept/reject action to the server
+        $.ajax({
+            url: 'friends.php', // Replace with the actual filename
+            type: 'POST',
+            data: { action: action, requestId: requestId },
+            success: function (response) {
+                // Display a notification to the receiver
+                if (response.success) {
+                    swal("Request Updated!", "Friend request status has been updated.", "success");
+                } else {
+                    swal("Error", "Something went wrong. Please try again.", "error");
+                }
+            }
+        });
+    }
+    
+</script>
 </body>
 
 </html>

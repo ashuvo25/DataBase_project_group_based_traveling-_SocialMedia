@@ -45,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $combinedForm = array_merge($form_1, $form_2);
     // Home_pages\home.php
     insertGroup($combinedForm);
-    header("Location:Home_page/home.php");
+    // Home_pages\home.php
+    header("Location: Home_pages\home.php");
     $conn->close();
     // }
 
