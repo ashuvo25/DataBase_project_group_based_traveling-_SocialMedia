@@ -39,13 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $postData = array(
         'name' => isset($_POST['name']) && $_POST['name'] !== '' ? test_input($_POST['name']) : $Name,
-        'email' => isset($_POST['email']) ? test_input($_POST['email']) : $Email,
         'company' => isset($_POST['company']) ? test_input($_POST['company']) : $Company,
         'number' => isset($_POST['phone']) ? test_input($_POST['phone']) : $Number,
         'website' => isset($_POST['website']) ? test_input($_POST['website']) : $Website,
         'currentPassword' => isset($_POST['current_password']) ? test_input($_POST['current_password']) : null,
         'newPassword' => isset($_POST['new_password']) ? test_input($_POST['new_password']) : null,
         'repeatNewPassword' => isset($_POST['repeat_new_password']) ? test_input($_POST['repeat_new_password']) : null,
+        'bio' => isset($_POST['bio']) ? test_input($_POST['bio']) :null,
+        
+
         // 'prof_text' =>  isset($updt) ? $updt : null,// Update this line to include the full URL
     );
 
@@ -87,21 +89,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body style ="background:#003554; ">
     <div class="container light-style flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-            Account settings
+        <h4 class="font-weight-bold py-3 mb-4" style = "color:antiquewhite;">
+          <a href="/Web_Design/Profile_Edit/Home_index.php" style=" text-decoration: none; color: #fff; margin-right: 350px; "> <img src="/Home_pages/image/icons/next.png" alt="" width="25px" >BACK </a> Account settings
         </h4>
         <div class="card overflow-hidden">
-            <div class="row no-gutters row-bordered row-border-light">
-                <div class="col-md-3 pt-0">
-                    <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social links</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Connections</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">Notifications</a>
+            <div class="row no-gutters row-bordered row-border-light" >
+                <div class="col-md-3 pt-0" style=" background:#003554;">
+                    <div class="list-group list-group-flush account-settings-links" style="background:#495159; color:#fff" >
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general" style="background:#495159; color:#fff">General</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password"style="background:#495159; color:#fff">Change password</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info" style="background:#495159; color:#fff">Info</a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links" style="background:#495159; color:#fff">Social links</a> -->
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections" style="background:#495159; color:#fff">Connections</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications" style="background:#495159; color:#fff">Notifications</a> -->
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -122,14 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="text" class="form-control" id="name" name="name" placeholder="<?php echo $Name ?>">
 
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">E-mail</label>
-                                        <input type="text" class="form-control mb-1" id="email" name="email" placeholder="<?php echo $Email === null ? 'Enter your email' : $Email; ?>">
-                                        <div class="alert alert-warning mt-3">
-                                            Your email is not confirmed. Please check your inbox.<br>
-                                            <a href="javascript:void(0)">Resend confirmation</a>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <label class="form-label" for="company">Company</label>
                                         <input type="text" class="form-control" id="company" name="company" placeholder="Company">
@@ -186,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="card-body pb-2">
                                     <div class="form-group">
                                         <label class="form-label" for="bio">Bio</label>
-                                        <textarea class="form-control" id="bio" rows="5" placeholder="Enter your bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
+                                        <textarea class="form-control" name="bio" id="bio" rows="5" placeholder="Enter your bio"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="birthday">Birthday</label>
@@ -205,7 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="account-social-links">
+                            <!-- <div class="tab-pane fade" id="account-social-links">
                                 <div class="card-body pb-2">
                                     <div class="form-group">
                                         <label class="form-label" for="twitter">Twitter</label>
@@ -326,7 +321,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="text-right mt-3">
 
                                 <input type="submit" name="submit" class="btn btn-primary" value="Save changes" required>&nbsp;

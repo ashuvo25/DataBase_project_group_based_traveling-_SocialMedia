@@ -7,15 +7,15 @@ $sender = $_SESSION['username'];
 
 if (isset($_GET['receiver'])) {
     $_SESSION['reciver'] = $_GET['receiver'];
-   
+
     // Update other relevant variables as needed
 }
-$receiver =$_SESSION['reciver'] ;
+$receiver = $_SESSION['reciver'];
 
 // $receiver = $_SESSION['receiver'];
 
 $friendinfo = select_profile_edit($receiver);
-$messages = getPersonalMessages($sender, $receiver);
+
 
 
 $ChatList = getChatList($sender);
@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post">
 
                     <div class="card chat-app">
-                   <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png"   class="chat_back" ></a>
+                        <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png" class="chat_back"></a>
                         <div id="plist" class="people-list">
-                            
+
                             <!-- <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -87,13 +87,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                     </li>
                                 <?php else : ?>
-                                    <?php foreach ($ChatList as $user) : 
-                                          $link = select_profile_edit($user['username']); ?>
-                                        
-                                        
+                                    <?php foreach ($ChatList as $user) :
+                                        $link = select_profile_edit($user['username']); ?>
+
+
                                         <li class="clearfix">
                                             <a href="index.php?receiver=<?= $user['username'] ?>">
-                                            <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
+                                                <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
 
                                                 <div class="about">
                                                     <div class="name"><?= $user['friend_name'] ?></div>
@@ -124,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php if ($friendinfo == null) : ?>
                                             <div class="chat-about">
                                                 <h6 class="m-b-0">Select User</h6>
-                                                
+
                                             </div>
                                         <?php else : ?>
                                             <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                            <img src="<?php echo '/Home_pages/uploads/' . $friendinfo['image']; ?>">
+                                                <img src="<?php echo '/Home_pages/uploads/' . $friendinfo['image']; ?>">
                                             </a>
                                             <div class="chat-about">
                                                 <h6 class="m-b-0"><?php echo $friendinfo['name'] ?></h6>
@@ -150,7 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             </div>
 
-                            <div class="chat-history">
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+                            <div class="chat-history" id="chatHistoryContainer">
+                                <?php $messages = getPersonalMessages($sender, $receiver); ?>
                                 <ul id="chatHistory" class="m-b-0">
                                     <?php foreach ($messages as $message) :
                                         $link = select_profile_edit($message['sender_username']); ?>
@@ -158,15 +161,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <div class="message-data <?php echo ($message['sender_username'] == $sender) ? 'text-right' : ''; ?>">
                                                 <span class="message-data-time"><?php echo date('H:i', strtotime($message['timestamp'])), "...", $message['sender_username']; ?></span>
                                                 <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
-
                                             </div>
                                             <div class="message <?php echo ($message['sender_username'] == $sender) ? 'other-message float-right' : 'my-message'; ?>">
                                                 <?php echo $message['message_text']; ?>
                                             </div>
                                         </li>
                                     <?php endforeach; ?>
+                                    <div id="scrollAnchor" style = " background:#003554;color:#003554; "></div>
                                 </ul>
                             </div>
+
+                            <!-- // After adding messages, set the scroll position to the anchor -->
+                            <script>
+                                window.location = "#scrollAnchor";
+                            </script>
+
+                            <script>
+                                $(document).ready(function() {
+                                    var counter = 9;
+                                    window.setInterval(function() {
+                                        counter = counter - 3;
+                                        if (counter >= 0) {
+                                            document.getElementById('off').innerHTML = counter;
+                                        }
+                                        if (counter === 0) {
+                                            counter = 9;
+                                        }
+                                        $("#chatHistoryContainer").load(window.location.href + " #chatHistoryContainer");
+                                    }, 3000);
+
+                                });
+                            </script>
                             <div class="chat-message clearfix">
                                 <div class="input-group mb-0">
                                     <div class="input-group-prepend">

@@ -46,7 +46,7 @@ $link = select_profile_edit($username);
          </div>
          <ul>
             <li class="nav_list"> <a href="#"  ><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
-            <li class="nav_list" id="connectButton"> <a href="/Home_pages/Pagess/Friends/friends.php" id="connectButton"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list" id="connectButton"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php" id="connectButton"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
@@ -330,7 +330,7 @@ $link = select_profile_edit($username);
          <div class="imp-links">
 
             <a href=""><img src="/Home_pages/image/icons/newspaper.png" class="friend">&nbsp Latest Update</a>
-            <a href=""><img src="/Home_pages/image/icons/friends.png" class="friend">&nbsp Friends</a>
+            
             <a href=""><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
             <a href=""><img src="/Home_pages/image/icons/activity.png" class="friend">&nbsp Activity</a>
             <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Travel</a>

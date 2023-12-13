@@ -1,5 +1,5 @@
 body {
-    background: #f5f5f5;
+    background:#353839;
     margin-top: 20px;
 }
 
@@ -13,6 +13,7 @@ body {
     background  : rgba(0, 0, 0, 0);
     color       : #4E5155;
 }
+
 
 label.btn {
     margin-bottom: 0;
@@ -79,7 +80,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .light-style .account-settings-links .list-group-item.active {
-    color: #4e5155 !important;
+    color: #3c1111 !important;
 }
 
 .material-style .account-settings-links .list-group-item {
@@ -97,7 +98,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .dark-style .account-settings-links .list-group-item.active {
-    color: #fff !important;
+    color: #000000 !important;
 }
 
 .light-style .account-settings-links .list-group-item.active {

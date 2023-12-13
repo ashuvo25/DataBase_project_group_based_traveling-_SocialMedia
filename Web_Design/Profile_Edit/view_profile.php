@@ -23,6 +23,11 @@ $userInfo = select_profile_edit($user);
 $groupInfo = host_group_view($user);
 $onlymember=onlymember($user);
 
+$follower=countFollowing("follower",$user);
+$following=countFollowing("following",$user);
+$host=countFollowing("host",$user);
+$total=countFollowing("total",$user);
+
 
 if ($userInfo) {
   // Assign the name from user information
@@ -35,7 +40,7 @@ if ($userInfo) {
   // $Company = $userInfo["company"];
 }
 
-$conn->close();
+// $conn->close();
 ?>
 <html lang="en">
 
@@ -78,12 +83,12 @@ $conn->close();
         <!-- <p><?php // echo $Company 
                 ?></p> -->
         <p><?php echo $Email ?></p>
-
+        
         <ul class="about">
-          <li><span>4,073</span>Followers</li>
-          <li><span>322</span>Following</li>
-          <li><span>200,543</span>Hosted</li>
-          <li><span>4</span>Tour</li>
+          <li><span><?php echo $follower ?></span>Followers</li>
+          <li><span><?php echo $following  ?></span>Following</li>
+          <li><span><?php echo $host  ?></span>Hosted</li>
+          <li><span><?php echo $total ?></span>Tour</li>
         </ul>
 
         <div class="content">
@@ -110,15 +115,144 @@ $conn->close();
             <li><a id="showAllGroups" href="#">Groups</a></li>
           </ul>
           <button>Follow</button>
+          <a href="/Web_Design/Chat_Box/index.php?receiver=<?php echo $user; ?>">
+
+          <button>Message</button>
+          </a>
         </nav>
 
         <div class="photos" id="photo">
-          <img src="adnan.jpg" alt="Photo" />
-          <img src="adnan.jpg" alt="Photo" />
-          <img src="adnan.jpg" alt="Photo" />
-          <img src="adnan.jpg" alt="Photo" />
-          <img src="adnan.jpg" alt="Photo" />
-          <img src="adnan.jpg" alt="Photo" />
+        <?php
+
+$user_id = 1;
+// queary for featch data.
+
+$sql = "SELECT * FROM post_table WHERE user_name_post_table = '$user'  ORDER BY date_time DESC";
+
+$immag = "SELECT prof_text FROM signups" ;
+$posts = mysqli_query($conn, $sql);
+
+foreach ($posts as $post) : /////////////////////////////////for each 
+   $post_id = $post["id"];
+   $likesCount = mysqli_fetch_assoc(
+      mysqli_query(
+         $conn,
+         "SELECT COUNT(*) AS likes FROM rating_info WHERE post_id  = $post_id AND status = 'like'"
+      )
+   )['likes'];
+
+   $dislikesCount = mysqli_fetch_assoc(mysqli_query(
+      $conn,
+      "SELECT COUNT(*)AS dislikes FROM rating_info WHERE post_id  = $post_id AND status = 'dislike'"
+   ))['dislikes'];
+
+   $status = mysqli_query($conn, "SELECT status FROM rating_info WHERE post_id = $post_id AND user_id = $user_id");
+
+   if (mysqli_num_rows($status) > 0) {
+      $status = mysqli_fetch_assoc($status)['status'];
+   } else {
+      $status = 0;
+   }
+
+
+   /// ----profile image set-----------------          
+
+?>
+
+   <div class="post">
+      <div class="prof">
+         <div class="user_name">
+            <!-- Small Profile section ------------------------ -->
+            <div class="profimg">
+               <?php
+               $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
+               $result = $conn->query($sql);
+
+               if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  $c = $row['user_name_post_table'];
+                  $d = $row['locations'];
+               }
+
+
+
+               $post_id = $post["id"];
+               $immg = "SELECT prof_text FROM signups WHERE username = ?";
+               $stmt = $conn->prepare($immg);
+               $stmt->bind_param("s", $c);
+               $stmt->execute();
+               $result = $stmt->get_result();
+
+               if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  $imguel11 = 'uploads/' . $row['prof_text'];
+               ?>
+
+<img src="<?php echo '/Home_pages/uploads/' . $row['prof_text']; ?>" alt="" height="50px" width="50px" class="img_prof">
+
+               <?php
+               }
+               ?>
+            </div>
+
+            <div class="date_timr">
+               <?php
+               $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
+               $result = $conn->query($sql);
+
+               if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  $a = $row['user_name_post_table'];
+                  $b = $row['locations'];
+                  echo "<a href='#' class='prof_name'>$a</a> <br>"; // Here comes the profile section;
+               }
+               $result = $conn->query($sql);
+               if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  $datetime = date("Y-m-d H:i:s", strtotime($row['date_time']));
+                  echo "<p class = 'p_date'>$datetime  $b</p>";
+               }
+               ?>
+            </div>
+            <!-- Small Profile section   done ------------------------ -->
+
+         </div>
+      </div>
+
+      <?php echo "<p class='p_textt'>" . $post['text_content'] . "</p>";
+;
+      echo "<br>";
+      $post_id = $post["id"];
+      // ...
+      if ($posts->num_rows > 0) {
+         $row = $post;
+         $imguel =  '/Home_pages/uploads/' . $row['file_name'];
+         $imguel1 =  '/Home_pages/uploads/' . $row['file_name1'];
+      ?>
+      <div class="imgsss">
+        
+         <?php
+         // Create an array of image URLs
+         $imageURLs = array($imguel, $imguel1);
+        
+         foreach ($imageURLs as $imageURL) {
+            if (!empty($imageURL)) {
+             
+               echo '<img src="' . $imageURL . '" alt="" height="350px" width="250px" class="img_posts">';
+            }
+         }
+         ?></div>
+      <?php
+      }
+      ?> <div class="post_info">
+      <button class="like" <?php if ($status == 'like') echo "selected"; ?> data-post-id=<?php echo $post_id; ?>>
+         <i class="fa fa-star fa-lg"></i>
+         <span class="likes_count <?php echo $post_id; ?>" data-count=<?php echo $likesCount; ?>> <?php echo $likesCount; ?></span>
+
+      </button>
+   </div>
+</div>
+<?php endforeach; ?>
         </div>
 
         <div class="shop" id="group">

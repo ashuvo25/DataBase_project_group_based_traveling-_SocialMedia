@@ -60,10 +60,10 @@ function insertGroup($FormData)
 
         $insertStmt->bind_param("iss", $group_id, $_SESSION['username'], $requestValue);
 
-        
+
         if ($conn->query($sql_2)) {
             // echo "Insert successful";
-           // header("Location: Home_pages/Pagess/Trip/trip.php ? groupid= $group_id");
+            // header("Location: Home_pages/Pagess/Trip/trip.php ? groupid= $group_id");
         } else {
             echo "Error inserting into group_signups: " . $conn->error;
         }
@@ -119,7 +119,7 @@ function getPersonalMessages($sender, $receiver)
 {
     global $conn;
 
-    $query = "SELECT * FROM personal_messages WHERE (sender_username = ? AND receiver_username = ?) OR (sender_username = ? AND receiver_username = ?) ORDER BY timestamp desc";
+    $query = "SELECT * FROM personal_messages WHERE (sender_username = ? AND receiver_username = ?) OR (sender_username = ? AND receiver_username = ?) ORDER BY timestamp ASC";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ssss", $sender, $receiver, $receiver, $sender);
     $stmt->execute();
@@ -141,7 +141,7 @@ function getGroupMessages($groupID)
               FROM group_messages gm
               JOIN signups u ON gm.sender_username = u.username
               WHERE gm.group_id = ?
-              ORDER BY gm.timestamp DESC";
+              ORDER BY gm.timestamp ASC";
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $groupID);
@@ -277,7 +277,7 @@ function group_view()
             FROM group_details
             LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
             LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
-            WHERE group_details.Privacie = 'Public' OR signups.verified = 'YES'
+            WHERE (group_details.Privacie = 'Public' OR signups.verified = 'YES') and group_details.Start_date>CURRENT_DATE
             ORDER BY signups.verified DESC, group_details.Time DESC, group_details.Privacie ";
 
     $result = $conn->query($sql);
@@ -384,6 +384,7 @@ function select_profile_edit($username)
                 // "website" => $row["website"],
                 // "company" => $row["company"]
                 "verified" => $row['verified'],
+                "bio"=>$row['bio'],
 
             );
         }
@@ -533,4 +534,135 @@ function onlymember($username)
     } else {
         return null;
     }
+}
+
+
+function getUsersWhoFollowMe($username)
+{
+    global $conn;
+
+    $query = "SELECT  s.*
+               FROM signups s
+               LEFT JOIN connection c ON s.username = c.follower
+               WHERE c.following = ? ";
+
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $users = [];
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $users[] = $row;
+        }
+    }
+
+    return $users;
+}
+
+function deleteConnection($following, $follower)
+{
+    global $conn;
+
+    $sql = "DELETE FROM `connection` WHERE `following` = ? AND `follower` = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $following, $follower);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        return true; // Deletion was successful
+    } else {
+        return false; // Deletion did not occur or had no effect
+    }
+}
+
+
+function insertConnection($following, $follower)
+{
+    global $conn;
+
+
+    $sql = "INSERT INTO `connection` (`following`, `follower`) VALUES (?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $following, $follower);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function checkIfUsersFollowEachOther($user1, $user2)
+{
+    global $conn;
+
+    // Check if $user1 follows $user2
+    $query1 = "SELECT 1
+               FROM connection
+               WHERE follower = ? AND following = ?";
+
+    $stmt1 = mysqli_prepare($conn, $query1);
+    mysqli_stmt_bind_param($stmt1, "ss", $user1, $user2);
+    mysqli_stmt_execute($stmt1);
+    $result1 = mysqli_stmt_get_result($stmt1);
+
+    // Check if $user2 follows $user1
+    $query2 = "SELECT 1
+               FROM connection
+               WHERE follower = ? AND following = ?";
+
+    $stmt2 = mysqli_prepare($conn, $query2);
+    mysqli_stmt_bind_param($stmt2, "ss", $user2, $user1);
+    mysqli_stmt_execute($stmt2);
+    $result2 = mysqli_stmt_get_result($stmt2);
+
+    // Return true if both users follow each other, otherwise return false
+    return mysqli_num_rows($result1) > 0 && mysqli_num_rows($result2) > 0;
+}
+function countFollowing($type,$user)
+{
+    global $conn;
+
+    if($type=="follower"){
+        $query = "SELECT COUNT(*) AS followingCount
+        FROM connection
+        WHERE `following` = ?";
+    }
+    elseif($type=="following"){
+        $query = "SELECT COUNT(*) AS followingCount
+        FROM connection
+        WHERE `follower` = ?";
+    }
+    elseif($type=="host"){
+        $query = "SELECT COUNT(*) AS followingCount
+        FROM group_signups
+        WHERE `username` = ?";
+    }
+    elseif($type=="total"){
+        $query = "SELECT COUNT(*) AS followingCount
+        FROM group_member
+        WHERE `member` = ?";
+
+    }
+
+   
+
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $user);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+
+   
+    mysqli_stmt_close($stmt);
+
+
+    return $row['followingCount'];
 }

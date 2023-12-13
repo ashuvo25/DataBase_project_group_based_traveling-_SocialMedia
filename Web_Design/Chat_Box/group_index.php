@@ -39,7 +39,7 @@ if (!$stmt) {
     $stmt->close();
 }
 
-$messages = getGroupMessages($groupID);
+
 
 
 $groupChatList = getGroupList($sender);
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // print_r($_POST); // Debugging line
-$conn->close();
+
 ?>
 
 
@@ -80,18 +80,11 @@ $conn->close();
                 <form method="post">
 
                     <div class="card chat-app">
+                    <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png"   class="chat_back" ></a>
                         <div id="plist" class="people-list">
-                            <!-- <div class="input-group">
-                               <li class="clearfix" style="background-color: cyan;">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                    <div class="about">
-                                        <div class="name">Group Chat</div>
-                                        <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
-                                    </div>
-                                </li>
-                            </div> -->
+                           
                             <ul class="list-unstyled chat-list mt-2 mb-0">
-                                <li class="clearfix" style="background-color: lime;">
+                                <li class="clearfix" style="background-color: rgba(53, 53, 54, 0.353);">
                                     <a href="index.php">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                         <div class="about">
@@ -134,6 +127,8 @@ $conn->close();
                             </ul>
                             </ul>
                         </div>
+
+
                         <div class="chat">
 
                             <div class="chat-header clearfix">
@@ -174,8 +169,12 @@ $conn->close();
 
                         </div>
 
-                        <div class="chat-history">
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+                            <div class="chat-history" id="chatHistoryContainer">
+                                <?php $messages = getGroupMessages($groupID); ?>
                             <ul id="chatHistory" class="m-b-0">
+                                
                                 <?php foreach ($messages as $message) : ?>
                                     <li class="clearfix">
                                         <div class="message-data <?php echo ($message['sender_username'] == $sender) ? 'text-right' : ''; ?>">
@@ -187,8 +186,29 @@ $conn->close();
                                         </div>
                                     </li>
                                 <?php endforeach; ?>
+                                <div id="scrollAnchor" style = " background:#003554;color:#003554; "></div>
                             </ul>
                         </div>
+                        <script>
+                                window.location = "#scrollAnchor";
+                            </script>
+
+                            <script>
+                                $(document).ready(function() {
+                                    var counter = 9;
+                                    window.setInterval(function() {
+                                        counter = counter - 3;
+                                        if (counter >= 0) {
+                                            document.getElementById('off').innerHTML = counter;
+                                        }
+                                        if (counter === 0) {
+                                            counter = 9;
+                                        }
+                                        $("#chatHistoryContainer").load(window.location.href + " #chatHistoryContainer");
+                                    }, 3000);
+
+                                });
+                            </script>
                         <div class="chat-message clearfix">
                             <div class="input-group mb-0">
                                 <div class="input-group-prepend">
