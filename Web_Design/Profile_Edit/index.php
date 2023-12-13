@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // Update profile if password fields are empty
-        updateProfile($username, $postData);
+        updateProfile( $postData);
     }
 
 
