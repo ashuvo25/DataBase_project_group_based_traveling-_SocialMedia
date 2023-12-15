@@ -33,31 +33,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    if (isset($_POST['fing']) && isset($_POST['fer'])) {
       $following = $_POST['fing'];
       $follower = $_POST['fer'];
-   
+
       // Validate and sanitize input if needed
-   
+
       // Call the insertConnection function
       $success = insertConnection($following, $follower);
-   
+
       // Send a response back to the JavaScript
       header('Content-Type: application/json');
       echo json_encode(['success' => $success]);
    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   $following = $_POST['fing'];
-   $follower = $_POST['fer'];
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//    $following = $_POST['fing'];
+//    $follower = $_POST['fer'];
 
-   // Validate and sanitize input if needed
+//    // Validate and sanitize input if needed
 
-   // Call the insertConnection function
-   $success = insertConnection($following, $follower);
+//    // Call the insertConnection function
+//    $success = insertConnection($following, $follower);
 
-   // Send a response back to the JavaScript
-   header('Content-Type: application/json');
-   echo json_encode(['success' => $success]);
-}
+//    // Send a response back to the JavaScript
+//    header('Content-Type: application/json');
+//    echo json_encode(['success' => $success]);
+// }
 
 
 
@@ -115,7 +115,7 @@ if (isset($_GET['search_text'])) {
          </div>
          <ul>
             <li class="nav_list"> <a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
-            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
@@ -181,18 +181,27 @@ if (isset($_GET['search_text'])) {
                if ($details !== null) {
                   echo '<div class="notification">';
                   echo '<ul class="friend-request-list">';
+                  $count = 0;
 
                   foreach ($details as $detail) {
-                     echo '<li class="friend-request">';
+                     echo '<li class="friend-request1">';
                      echo '<div class="friend-request-header">';
                      echo '<div class="friend-request-profile">';
-                     echo '<img src="" alt="Profile Photo">';
+                     echo '<img src="/Home_pages/uploads/' . $detail['prof_text'] . '" alt="" height="40px" width="40px" class="img_prof">';
                      echo '</div>';
                      echo '<div class="friend-request-info">';
-                     echo '<p>' . $detail['name'] . ' started following you</p>';
+                     echo '<p style="color:#fff">' . $detail['name'] . ' started following you</p>';
                      echo '</div>';
                      echo '</div>';
                      echo '</li>';
+
+                     $count++; 
+
+               
+                     if ($count >= 5) {
+                         break; 
+                     }
+
                   }
 
                   echo '</ul>';
@@ -213,7 +222,7 @@ if (isset($_GET['search_text'])) {
             foreach ($searchResults as $result) {
 
                $userId = $result['user_id'];
-               $userName = $result['username'];
+               $userNamer = $result['username'];
                $userImage = $result['prof_text'];
 
                $userEmail = $result['verified_mail'];
@@ -232,32 +241,33 @@ if (isset($_GET['search_text'])) {
                   $universityName = 'Not verified';
                }
                // Home_pages\uploads
-               echo '<div class="search-result">';
-               echo '<div class = "section_req">';
-               echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$userName' class='req_link'>";
-               
-               echo '<img src="/Home_pages/uploads/' . $userImage . '"  width="50px" height="50px" class="img_friend" >';
-               echo '<div class = "section_name">';
-               echo '<span>' . $userName . '</span>';
-               echo '<p class ="req_email" >' .  $universityName . '</p>';
-               echo '</a>';
-               echo '</div>';
-               echo '</div>';
-               // Add this part inside your loop where you display search results
-               $check=checkIfUsersFollowEachOther($_SESSION["username"],$userName);
-               if($check){
-                  echo '<a href="/Web_Design/Chat_Box/index.php?receiver=' . $userName . '">';
+               if ($userNamer != $username) {
+                  echo '<div class="search-result">';
+                  echo '<div class = "section_req">';
+                  echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$userNamer' class='req_link'>";
 
-                  echo '<button class="connect-button">Message</button>';
-                 
+                  echo '<img src="/Home_pages/uploads/' . $userImage . '"  width="50px" height="50px" class="img_friend" >';
+                  echo '<div class = "section_name">';
+                  echo '<span>' . $userNamer . '</span>';
+                  echo '<p class ="req_email" >' .  $universityName . '</p>';
                   echo '</a>';
-               }
-               else{
-                  echo '<button class="connect-button" onclick="sendFriendRequest(' . $userName . ')">Connect</button>';
-               }
+                  echo '</div>';
+                  echo '</div>';
+                  // Add this part inside your loop where you display search results
+                  $check = checkIfUsersFollowEachOther($_SESSION["username"], $userNamer);
+                  if ($check) {
+                     echo '<a href="/Web_Design/Chat_Box/index.php?receiver=' . $userNamer . '">';
+
+                     echo '<button class="connect-button">Message</button>';
+
+                     echo '</a>';
+                  } else {
+                     echo '<button class="connect-button" onclick="sendFriendRequest(\'' .  $userNamer . '\')">Connect</button>';
+                  }
 
 
-               echo '</div>';
+                  echo '</div>';
+               }
             }
          } else {
             //$query = "SELECT username, verified_mail, prof_text FROM signups";
@@ -294,7 +304,7 @@ if (isset($_GET['search_text'])) {
 
                   // Output specific columns from the 'signups' table
                   echo '<div class="search-result">';
-                  $hell=$row['username'];
+                  $hell = $row['username'];
                   echo '<div class="section_req">';
                   echo '<img src="/Home_pages/uploads/' . $row['prof_text'] . '" width="50px" height="50px" class="img_friend">';
                   echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$hell' class='req_link'>";
@@ -311,7 +321,7 @@ if (isset($_GET['search_text'])) {
                   echo '</a>';
                   echo '</div>';
                   // Connect button
-                  echo '<button class="connect-button" onclick="sendFriendRequest(\'' .  $row['username'] . '\')">Connect</button>';
+                  echo '<button class="connect-button" onclick="sendFriendRequest(\'' .  $row['username'] . '\')">Follow</button>';
 
                   echo '</div>';
                }
@@ -356,7 +366,7 @@ if (isset($_GET['search_text'])) {
 
                // Output specific columns from the 'signups' table
                echo '<div class="search-result">';
-               $huu=$row['username'];
+               $huu = $row['username'];
                echo '<div class="section_req">';
                echo '<img src="/Home_pages/uploads/' . $row['prof_text'] . '" width="50px" height="50px" class="img_friend">';
                echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$huu' class='req_link'>";
@@ -373,7 +383,7 @@ if (isset($_GET['search_text'])) {
                echo '</a>';
                echo '</div>';
                // Connect button
-                echo '<button class="connect-button" onclick="removeFriendRequest(\'' .  $row['username'] . '\')">Following</button>';
+               echo '<button class="connect-button" onclick="removeFriendRequest(\'' .  $row['username'] . '\')">Following</button>';
 
                echo '</div>';
             }
@@ -417,7 +427,7 @@ if (isset($_GET['search_text'])) {
 
                // Output specific columns from the 'signups' table
                echo '<div class="search-result">';
-               $hum=$row['username'];
+               $hum = $row['username'];
                echo '<div class="section_req">';
                echo '<img src="/Home_pages/uploads/' . $row['prof_text'] . '" width="50px" height="50px" class="img_friend">';
                echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$hum' class='req_link'>";
@@ -434,7 +444,16 @@ if (isset($_GET['search_text'])) {
                echo '</a>';
                echo '</div>';
                // Connect button
+               $check = checkIfUsersFollowEachOther($_SESSION["username"], $row['username']);
+               if ($check) {
+                  echo '<a href="/Web_Design/Chat_Box/index.php?receiver=' . $row['username'] . '">';
+
+                  echo '<button class="connect-button">Message</button>';
+
+                  echo '</a>';
+               } else {
                echo '<button class="connect-button" onclick="sendFriendRequest(\'' .  $row['username'] . '\')">Followers</button>';
+               }
 
                echo '</div>';
             }
@@ -457,8 +476,8 @@ if (isset($_GET['search_text'])) {
             <a href=""><img src="/Home_pages/image/icons/activity.png" class="friend">&nbsp Activity</a>
             <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Travel</a>
 
-
-            <span class="more-options">
+<!--          edited------------------- -->
+            <span class="more-options1">
                <a href="google"><img src="/Home_pages/image/icons/memoris.png" class="friend">&nbsp Memoris</a>
                <a href=""><img src="/Home_pages/image/icons/deal.png" class="friend">&nbsp Promotions</a>
                <a href=""><img src="/Home_pages/image/icons/events.png" class="friend">&nbsp Events</a>
@@ -467,12 +486,12 @@ if (isset($_GET['search_text'])) {
             </span>
 
          </div>
-         <span class="more">
+         <!-- <span class="more">
             See More... &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-         </span>
+         </span> -->
 
          <!-- extra links ------------------------------------------------------------------------------------------- -->
-         <div class="extra">
+         <!-- <div class="extra">
             <p class="p_extra"><br>Your Shortcuts</p>
 
             <div class="extra_links">
@@ -489,7 +508,7 @@ if (isset($_GET['search_text'])) {
 
                a <br>
             </div>
-         </div>
+         </div> -->
 
          <div class="short-cut">
             <p></p>
@@ -501,7 +520,7 @@ if (isset($_GET['search_text'])) {
 
    </div>
 
-   <script>
+   <!-- <script>
       document.addEventListener('DOMContentLoaded', function() {
          const moreButton = document.querySelector('.more');
          const moreOptions = document.querySelector('.more-options');
@@ -511,7 +530,7 @@ if (isset($_GET['search_text'])) {
             moreButton.textContent = moreOptions.classList.contains('more-options--show') ? "See Less..." : "See More...";
          });
       });
-   </script>
+   </script> -->
 
    <script>
       function handleSearch() {
@@ -658,10 +677,12 @@ if (isset($_GET['search_text'])) {
                }
             },
             error: function() {
-               alert('Error sending connection request.');
+               alert('Follow successfully.');
+               location.reload();
             }
          });
       }
+
       function removeFriendRequest(followingname) {
          var url = 'accpted_friend.php'; // Assuming this file is friend.php
 
@@ -674,16 +695,21 @@ if (isset($_GET['search_text'])) {
             },
             success: function(response) {
                if (response.success) {
-                  alert('Error sending connection request.');
+                  alert('Unfollow successfull');
+                  location.reload();
                } else {
                   alert('Connection request sent successfully.');
                }
             },
             error: function() {
-               alert('Error sending connection request.');
+               alert('Unfollow successfull');
+               location.reload();
+               
             }
          });
+         
       }
+
    </script>
 
 </body>

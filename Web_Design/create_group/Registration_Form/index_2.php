@@ -41,26 +41,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Combine data from both forms
     $form_1 = isset($_SESSION["form_1"]) ? $_SESSION["form_1"] : array();
+    $_SESSION['form_1']="";
   
     $combinedForm = array_merge($form_1, $form_2);
     // Home_pages\home.php
     insertGroup($combinedForm);
     // Home_pages\home.php
-    header("Location: Home_pages\home.php");
+ 
+
+    header("Location: /Home_pages/home.php");
     $conn->close();
-    // }
 
-
-    // Access data using array keys
-    // echo "Check In: " . $formData['checkIn'] . "<br>";
-    // echo "Check Out: " . $formData['checkOut'] . "<br>";
-    // echo "Transport: " . $formData['transport'] . "<br>";
-    // ... (access other fields similarly)
 }
-
-
 ?>
-
 
 <html lang="en">
 
@@ -94,13 +87,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <div class="container">
-        <header>Create Group</header>
+        <header style=" color: #fff; border-bottom: 1px solid black; ">Create Group</header>
 
         <form action="index_2.php" method="post">
 
             <div class="form second">
                 <div class="details address">
-                    <span class="title">Budget</span>
+                    <span class="title" style=" color: #fff; ">Budget</span>
 
                     <div class="fields">
                         <div class="input-field">
@@ -206,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="details family">
-                    <span class="title">Extra</span>
+                    <span class="title" style=" color: #fff; ">Extra</span>
 
                     <div class="fields">
                         <div class="input-field">
@@ -220,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="input-field_large">
-                            <label>About Tour</label>
+                            <label style=" color: #fff; ">About Tour</label>
                             <textarea name="About Tour" placeholder="It will show top of the group" rows="4" cols="50" required></textarea>
                         </div>
 
@@ -228,15 +221,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="buttons">
+                      
                         <div class="backBtn">
                             <i class="uil uil-navigator"></i>
                             <span class="btnText">Back</span>
                         </div>
+                        
 
                         <button class="sumbit">
                             <span class="btnText">Submit</span>
                             <i class="uil uil-navigator"></i>
+                            
                         </button>
+                        
                     </div>
                 </div>
             </div>

@@ -74,7 +74,7 @@ if ($userInfo) {
          </div>
          <ul>
             <li class="nav_list"> <a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
-            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
@@ -142,13 +142,13 @@ if ($userInfo) {
         <h2><?php echo $Name ?></h2>
         <!-- <p><?php // echo $Company 
                 ?></p> -->
-        <p><?php echo $Email ?></p>
+        <p  style =" color: #ffffff; "><?php echo $Email ?></p>
 
-        <ul class="about">
-        <li><span><?php echo $follower ?></span>Followers</li>
-          <li><span><?php echo $following  ?></span>Following</li>
-          <li><span><?php echo $host  ?></span>Hosted</li>
-          <li><span><?php echo $total ?></span>Tour</li>
+        <ul class="about" >
+        <li  style =" color: #fff; "><span><?php echo $follower ?></span>Followers</li>
+          <li  style =" color: #fff; "><span><?php echo $following  ?></span>Following</li>
+          <li  style =" color: #fff; "><span><?php echo $host  ?></span>Hosted</li>
+          <li  style =" color: #fff; "><span><?php echo $total ?></span>Tour</li>
         </ul>
 
         <div class="content">
@@ -167,10 +167,10 @@ if ($userInfo) {
       <div class="right__col">
         <nav class="nav_iconss" >
           <ul>
-            <li><a id="showPhotos" href="#">Post</a></li>
-            <li><a id="showGroups" href="#">Hosting</a></li>
-            <li><a id="showAllGroups" href="#">Groups</a></li>
-            <li><a href="index.php">Edit</a></li>
+            <li  style =" font-weight: bold; color: green;text-decoration: underline; "><a id="showPhotos" href="#">Post</a></li>
+            <li  style =" font-weight: bold; text-decoration: underline;color: green; "><a id="showGroups" href="#">Hosting</a></li>
+            <li  style =" font-weight: bold;text-decoration: underline;color: green; "><a id="showAllGroups" href="#">Groups</a></li>
+            <li  style =" font-weight: bold;text-decoration: underline;color: green; "><a href="index.php">Edit</a></li>
           </ul>
 
           
@@ -190,25 +190,7 @@ $posts = mysqli_query($conn, $sql);
 
 foreach ($posts as $post) : /////////////////////////////////for each 
    $post_id = $post["id"];
-   $likesCount = mysqli_fetch_assoc(
-      mysqli_query(
-         $conn,
-         "SELECT COUNT(*) AS likes FROM rating_info WHERE post_id  = $post_id AND status = 'like'"
-      )
-   )['likes'];
-
-   $dislikesCount = mysqli_fetch_assoc(mysqli_query(
-      $conn,
-      "SELECT COUNT(*)AS dislikes FROM rating_info WHERE post_id  = $post_id AND status = 'dislike'"
-   ))['dislikes'];
-
-   $status = mysqli_query($conn, "SELECT status FROM rating_info WHERE post_id = $post_id AND user_id = $user_id");
-
-   if (mysqli_num_rows($status) > 0) {
-      $status = mysqli_fetch_assoc($status)['status'];
-   } else {
-      $status = 0;
-   }
+   
 
 
    /// ----profile image set-----------------          
@@ -277,7 +259,6 @@ foreach ($posts as $post) : /////////////////////////////////for each
 
       <?php echo "<p class='p_textt'>" . $post['text_content'] . "</p>";
 ;
-      echo "<br>";
       $post_id = $post["id"];
       // ...
       if ($posts->num_rows > 0) {
@@ -294,19 +275,16 @@ foreach ($posts as $post) : /////////////////////////////////for each
          foreach ($imageURLs as $imageURL) {
             if (!empty($imageURL)) {
              
-               echo '<img src="' . $imageURL . '" alt="" height="350px" width="250px" class="img_posts">';
+               echo '<img src="' . $imageURL . '" alt="" height="300px" width="250px" class="img_posts">';
             }
          }
-         ?></div>
+         echo"<br> ";
+         ?>
+        
+        </div>
       <?php
       }
-      ?> <div class="post_info">
-      <button class="like" <?php if ($status == 'like') echo "selected"; ?> data-post-id=<?php echo $post_id; ?>>
-         <i class="fa fa-star fa-lg"></i>
-         <span class="likes_count <?php echo $post_id; ?>" data-count=<?php echo $likesCount; ?>> <?php echo $likesCount; ?></span>
-
-      </button>
-   </div>
+      ?> 
 </div>
 <?php endforeach; ?>
         </div>
@@ -331,16 +309,16 @@ foreach ($posts as $post) : /////////////////////////////////for each
               $Privacie = $group["Privacie"];
               $User_name = $group["User_Name"];
           ?>
-              <div class="box">
+              <div class="box" style=" background: #072e43; color: green; ">
                 <div class="img-container">
-                  <img alt="user photo" src="2.jpg">
-                  <h4 class="Host"><?php echo "$User_name" ?></h4>
+                <img alt="user photo" src="<?php echo '/Home_pages/uploads/' . $group['prof_text']; ?>">
+                  <h4 class="Host" style=" color:chartreuse; "><?php echo "$User_name" ?></h4>
                 </div>
                 <div class="content">
-                  <h2><?php echo $Title ?></h2>
+                  <h2 style=" color:#fff; "><?php echo $Title ?></h2>
                   <h4>
-                    <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
-                    <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
+                    <span class="Group_name" style=" color:#fff; "><?php echo "$From TO $to" ?></span> <br>
+                    <span class="Date" style=" color:#fff; "><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
                   <a href="/Home_pages/Pagess/Trip/trip.php?groupid=<?php echo $Group_ID; ?>">
                     <p class="btn-area">
@@ -401,17 +379,23 @@ foreach ($posts as $post) : /////////////////////////////////for each
               $Mobile_number = $group["Mobile_number"];
               $Privacie = $group["Privacie"];
               $User_name =$user;
+              $host_user_name=$group["username"];
+
+              $hostdetails=select_profile_edit($host_user_name);
           ?>
-              <div class="box">
+              <div class="box" style="background: #072e43;" >
                 <div class="img-container">
-                  <img alt="user photo" src="2.jpg">
-                  <h4 class="Host"><?php echo "$User_name" ?></h4>
+                <img alt="user photo" src="<?php echo '/Home_pages/uploads/' . $hostdetails['image']; ?>">
+                  <h4 class="Host" style=" color: yellow; "><?php $aboutTour = $hostdetails["name"] ;
+                                  $words = str_word_count($aboutTour, 1);
+                                  $limitedWords = implode(' ', array_slice($words, 0, 1));
+                                  echo $limitedWords; ?></h4>
                 </div>
                 <div class="content">
                   <h2><?php echo $Title ?></h2>
                   <h4>
-                    <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
-                    <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
+                    <span class="Group_name" style=" color: #fff; "><?php echo "$From TO $to" ?></span> <br>
+                    <span class="Date" style=" color: #fff; "><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
                   <a href="/Home_pages/Pagess/Trip/user_trip.php?Group_ID=<?php echo $Group_ID; ?>">
 
@@ -538,6 +522,32 @@ foreach ($posts as $post) : /////////////////////////////////for each
         xhr.send(formData);
     }
 </script>
+
+
+<!-- SHUVO  -->
+<!-- <script>
+    // Wait for the DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all the anchor elements in the navigation
+      var navLinks = document.querySelectorAll('.nav_iconss a');
+
+      // Add a click event listener to each anchor element
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+          // Prevent the default link behavior
+          event.preventDefault();
+
+          // Remove the 'underline' class from all links
+          navLinks.forEach(function(otherLink) {
+            otherLink.classList.remove('underline');
+          });
+
+          // Add the 'underline' class to the clicked link
+          link.classList.add('underline');
+        });
+      });
+    });
+  </script> -->
 </body>
 
 </html>

@@ -21,12 +21,12 @@ if (isset($_GET['username'])) {
 $userInfo = select_profile_edit($user);
 
 $groupInfo = host_group_view($user);
-$onlymember=onlymember($user);
+$onlymember = onlymember($user);
 
-$follower=countFollowing("follower",$user);
-$following=countFollowing("following",$user);
-$host=countFollowing("host",$user);
-$total=countFollowing("total",$user);
+$follower = countFollowing("follower", $user);
+$following = countFollowing("following", $user);
+$host = countFollowing("host", $user);
+$total = countFollowing("total", $user);
 
 
 if ($userInfo) {
@@ -38,6 +38,20 @@ if ($userInfo) {
   // $Number = $userInfo["number"];
   // $Website = $userInfo["website"];
   // $Company = $userInfo["company"];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $following = $_POST['fing'];
+  $follower = $_POST['fer'];
+
+  // Validate and sanitize input if needed
+
+  // Call the insertConnection function
+  $success = insertConnection($following, $follower);
+
+  // Send a response back to the JavaScript
+  header('Content-Type: application/json');
+  echo json_encode(['success' => $success]);
 }
 
 // $conn->close();
@@ -52,14 +66,68 @@ if ($userInfo) {
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="Home_style.css" />
 </head>
 
 <body>
+  <header>
+    <nav>
+      <div class="nav_left">
+        <div class="logo">
+          <h1 class="title">
+            Forest MeN
+            <div class="logo-container">
+              <div class="aurora"></div>
 
+            </div>
+          </h1>
+          <p class="subtitie">Made Trip With Us!</p>
+        </div>
+        <ul>
+          <li class="nav_list"> <a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
+          <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+          <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
+          <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
+          <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
+          <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
+        </ul>
+      </div>
+      <div class="nav_right">
+
+        <?php
+        $name = $link['name'];
+        ?>
+
+        <!-- <div class="profile">
+            <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+               <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+               <p><?php echo $name; ?></p>
+
+            </a>
+</div> -->
+        <?php if ($link['verified'] == "YES") { ?>
+          <div class="profile">
+            <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+              <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+              <p><?php echo $name; ?></p>
+            </a>
+          </div>
+        <?php } else { ?>
+          <div class="profile_1">
+            <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
+              <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+              <p><?php echo $name; ?></p>
+            </a>
+          </div>
+        <?php } ?>
+
+      </div>
+    </nav>
+  </header>
   <div class="header__wrapper">
     <header>
-      <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" class="header_imgs" />
+      <img src="<?php echo '/Home_pages/uploads/' . $userInfo['image']; ?>" class="header_imgs" />
     </header>
     <div class="cols__container">
 
@@ -68,7 +136,7 @@ if ($userInfo) {
           <form class="form" id="form" action="" enctype="multipart/form-data" method="post">
             <input type="hidden" name="id" value="nothing">
             <div class="upload">
-              <img id="image" src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" width="120px" height="120px" class="prof_imgs" />
+              <img id="image" src="<?php echo '/Home_pages/uploads/' . $userInfo['image']; ?>" width="120px" height="120px" class="prof_imgs" />
 
               <div class="leftRound" id="cancel" style="display: none;">
                 <i class="fa fa-times"></i>
@@ -83,7 +151,7 @@ if ($userInfo) {
         <!-- <p><?php // echo $Company 
                 ?></p> -->
         <p><?php echo $Email ?></p>
-        
+
         <ul class="about">
           <li><span><?php echo $follower ?></span>Followers</li>
           <li><span><?php echo $following  ?></span>Following</li>
@@ -114,145 +182,145 @@ if ($userInfo) {
             <li><a id="showGroups" href="#">Hosting</a></li>
             <li><a id="showAllGroups" href="#">Groups</a></li>
           </ul>
-          <button>Follow</button>
+          <button class="connect-button" onclick="sendFriendRequest('<?php echo $user; ?>')">Follow</button>
+
           <a href="/Web_Design/Chat_Box/index.php?receiver=<?php echo $user; ?>">
 
-          <button>Message</button>
+            <button>Message</button>
           </a>
         </nav>
 
         <div class="photos" id="photo">
-        <?php
+          <?php
 
-$user_id = 1;
-// queary for featch data.
+          $user_id = 1;
+          // queary for featch data.
 
-$sql = "SELECT * FROM post_table WHERE user_name_post_table = '$user'  ORDER BY date_time DESC";
+          $sql = "SELECT * FROM post_table WHERE user_name_post_table = '$user'  ORDER BY date_time DESC";
 
-$immag = "SELECT prof_text FROM signups" ;
-$posts = mysqli_query($conn, $sql);
+          $immag = "SELECT prof_text FROM signups";
+          $posts = mysqli_query($conn, $sql);
 
-foreach ($posts as $post) : /////////////////////////////////for each 
-   $post_id = $post["id"];
-   $likesCount = mysqli_fetch_assoc(
-      mysqli_query(
-         $conn,
-         "SELECT COUNT(*) AS likes FROM rating_info WHERE post_id  = $post_id AND status = 'like'"
-      )
-   )['likes'];
+          foreach ($posts as $post) : /////////////////////////////////for each 
+            $post_id = $post["id"];
+            $likesCount = mysqli_fetch_assoc(
+              mysqli_query(
+                $conn,
+                "SELECT COUNT(*) AS likes FROM rating_info WHERE post_id  = $post_id AND status = 'like'"
+              )
+            )['likes'];
 
-   $dislikesCount = mysqli_fetch_assoc(mysqli_query(
-      $conn,
-      "SELECT COUNT(*)AS dislikes FROM rating_info WHERE post_id  = $post_id AND status = 'dislike'"
-   ))['dislikes'];
+            $dislikesCount = mysqli_fetch_assoc(mysqli_query(
+              $conn,
+              "SELECT COUNT(*)AS dislikes FROM rating_info WHERE post_id  = $post_id AND status = 'dislike'"
+            ))['dislikes'];
 
-   $status = mysqli_query($conn, "SELECT status FROM rating_info WHERE post_id = $post_id AND user_id = $user_id");
+            $status = mysqli_query($conn, "SELECT status FROM rating_info WHERE post_id = $post_id AND user_id = $user_id");
 
-   if (mysqli_num_rows($status) > 0) {
-      $status = mysqli_fetch_assoc($status)['status'];
-   } else {
-      $status = 0;
-   }
-
-
-   /// ----profile image set-----------------          
-
-?>
-
-   <div class="post">
-      <div class="prof">
-         <div class="user_name">
-            <!-- Small Profile section ------------------------ -->
-            <div class="profimg">
-               <?php
-               $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
-               $result = $conn->query($sql);
-
-               if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  $c = $row['user_name_post_table'];
-                  $d = $row['locations'];
-               }
-
-
-
-               $post_id = $post["id"];
-               $immg = "SELECT prof_text FROM signups WHERE username = ?";
-               $stmt = $conn->prepare($immg);
-               $stmt->bind_param("s", $c);
-               $stmt->execute();
-               $result = $stmt->get_result();
-
-               if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  $imguel11 = 'uploads/' . $row['prof_text'];
-               ?>
-
-<img src="<?php echo '/Home_pages/uploads/' . $row['prof_text']; ?>" alt="" height="50px" width="50px" class="img_prof">
-
-               <?php
-               }
-               ?>
-            </div>
-
-            <div class="date_timr">
-               <?php
-               $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
-               $result = $conn->query($sql);
-
-               if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  $a = $row['user_name_post_table'];
-                  $b = $row['locations'];
-                  echo "<a href='#' class='prof_name'>$a</a> <br>"; // Here comes the profile section;
-               }
-               $result = $conn->query($sql);
-               if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  $datetime = date("Y-m-d H:i:s", strtotime($row['date_time']));
-                  echo "<p class = 'p_date'>$datetime  $b</p>";
-               }
-               ?>
-            </div>
-            <!-- Small Profile section   done ------------------------ -->
-
-         </div>
-      </div>
-
-      <?php echo "<p class='p_textt'>" . $post['text_content'] . "</p>";
-;
-      echo "<br>";
-      $post_id = $post["id"];
-      // ...
-      if ($posts->num_rows > 0) {
-         $row = $post;
-         $imguel =  '/Home_pages/uploads/' . $row['file_name'];
-         $imguel1 =  '/Home_pages/uploads/' . $row['file_name1'];
-      ?>
-      <div class="imgsss">
-        
-         <?php
-         // Create an array of image URLs
-         $imageURLs = array($imguel, $imguel1);
-        
-         foreach ($imageURLs as $imageURL) {
-            if (!empty($imageURL)) {
-             
-               echo '<img src="' . $imageURL . '" alt="" height="350px" width="250px" class="img_posts">';
+            if (mysqli_num_rows($status) > 0) {
+              $status = mysqli_fetch_assoc($status)['status'];
+            } else {
+              $status = 0;
             }
-         }
-         ?></div>
-      <?php
-      }
-      ?> <div class="post_info">
-      <button class="like" <?php if ($status == 'like') echo "selected"; ?> data-post-id=<?php echo $post_id; ?>>
-         <i class="fa fa-star fa-lg"></i>
-         <span class="likes_count <?php echo $post_id; ?>" data-count=<?php echo $likesCount; ?>> <?php echo $likesCount; ?></span>
 
-      </button>
-   </div>
-</div>
-<?php endforeach; ?>
+
+            /// ----profile image set-----------------          
+
+          ?>
+
+            <div class="post">
+              <div class="prof">
+                <div class="user_name">
+                  <!-- Small Profile section ------------------------ -->
+                  <div class="profimg">
+                    <?php
+                    $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $c = $row['user_name_post_table'];
+                      $d = $row['locations'];
+                    }
+
+
+
+                    $post_id = $post["id"];
+                    $immg = "SELECT prof_text FROM signups WHERE username = ?";
+                    $stmt = $conn->prepare($immg);
+                    $stmt->bind_param("s", $c);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $imguel11 = 'uploads/' . $row['prof_text'];
+                    ?>
+
+                      <img src="<?php echo '/Home_pages/uploads/' . $row['prof_text']; ?>" alt="" height="50px" width="50px" class="img_prof">
+
+                    <?php
+                    }
+                    ?>
+                  </div>
+
+                  <div class="date_timr">
+                    <?php
+                    $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $a = $row['user_name_post_table'];
+                      $b = $row['locations'];
+                      echo "<a href='#' class='prof_name'>$a</a> <br>"; // Here comes the profile section;
+                    }
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $datetime = date("Y-m-d H:i:s", strtotime($row['date_time']));
+                      echo "<p class = 'p_date'>$datetime  $b</p>";
+                    }
+                    ?>
+                  </div>
+                  <!-- Small Profile section   done ------------------------ -->
+
+                </div>
+              </div>
+
+              <?php echo "<p class='p_textt'>" . $post['text_content'] . "</p>";;
+              echo "<br>";
+              $post_id = $post["id"];
+              // ...
+              if ($posts->num_rows > 0) {
+                $row = $post;
+                $imguel =  '/Home_pages/uploads/' . $row['file_name'];
+                $imguel1 =  '/Home_pages/uploads/' . $row['file_name1'];
+              ?>
+                <div class="imgsss">
+
+                  <?php
+                  // Create an array of image URLs
+                  $imageURLs = array($imguel, $imguel1);
+
+                  foreach ($imageURLs as $imageURL) {
+                    if (!empty($imageURL)) {
+
+                      echo '<img src="' . $imageURL . '" alt="" height="350px" width="250px" class="img_posts">';
+                    }
+                  }
+                  ?></div>
+              <?php
+              }
+              ?> <div class="post_info">
+                <button class="like" <?php if ($status == 'like') echo "selected"; ?> data-post-id=<?php echo $post_id; ?>>
+                  <i class="fa fa-star fa-lg"></i>
+                  <span class="likes_count <?php echo $post_id; ?>" data-count=<?php echo $likesCount; ?>> <?php echo $likesCount; ?></span>
+
+                </button>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
 
         <div class="shop" id="group">
@@ -275,14 +343,14 @@ foreach ($posts as $post) : /////////////////////////////////for each
               $Privacie = $group["Privacie"];
               $User_name = $group["User_Name"];
           ?>
-              <div class="box">
+              <div class="box" style="  background: #032030; ">
                 <div class="img-container">
                   <img alt="user photo" src="2.jpg">
-                  <h4 class="Host"><?php echo "$User_name" ?></h4>
+                  <h4 class="Host" style=" color: yellow; "><?php echo "$User_name" ?></h4>
                 </div>
                 <div class="content">
-                  <h2><?php echo $Title ?></h2>
-                  <h4>
+                  <h2 style=" color: yellow; "><?php echo $Title ?></h2>
+                  <h4 style=" color: #fff; ">
                     <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
                     <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
@@ -327,7 +395,7 @@ foreach ($posts as $post) : /////////////////////////////////for each
         </div>
 
         <div class="shop" id="allgroup">
-        <?php
+          <?php
           // Check if there are groups to display
           if ($onlymember) {
             // Loop through each group in the $groupInfo array
@@ -344,16 +412,16 @@ foreach ($posts as $post) : /////////////////////////////////for each
               $Itinerary = $group["Itinerary"];
               $Mobile_number = $group["Mobile_number"];
               $Privacie = $group["Privacie"];
-              $User_name =$user;
+              $User_name = $user;
           ?>
-              <div class="box">
+              <div class="box"  style="  background: #032030; ">
                 <div class="img-container">
                   <img alt="user photo" src="2.jpg">
-                  <h4 class="Host"><?php echo "$User_name" ?></h4>
+                  <h4 class="Host"style=" color: yellow; "><?php echo "$User_name" ?></h4>
                 </div>
                 <div class="content">
-                  <h2><?php echo $Title ?></h2>
-                  <h4>
+                  <h2 style=" color: yellow; "><?php echo $Title ?></h2>
+                  <h4 style=" color: #fff ">
                     <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
                     <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
                   </h4>
@@ -440,8 +508,35 @@ foreach ($posts as $post) : /////////////////////////////////for each
         groupsDiv.style.display = "none";
         allGroupsDiv.style.display = "grid";
       });
-      
+
     });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+  <script>
+    function sendFriendRequest(followingname) {
+      var url = 'view_profile.php'; // Assuming this file is friend.php
+
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+          fing: followingname,
+          fer: '<?php echo $_SESSION['username']; ?>'
+        },
+        success: function(response) {
+          if (response.success) {
+            alert('Error sending connection request.');
+          } else {
+            alert('Follow successfully.');
+          }
+        },
+        error: function() {
+          alert('Follow successfully.');
+        }
+      });
+    }
   </script>
 
 </body>

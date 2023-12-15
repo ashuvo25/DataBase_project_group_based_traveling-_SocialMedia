@@ -47,15 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="style.css" rel="stylesheet">
 </head>
 
-<body>
+<body >
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-lg-12">
+    <div class="container" style="margin-top: 0px; " >
+        <div class="row clearfix" >
+            <div class="col-lg-12" >
                 <form method="post">
 
                     <div class="card chat-app">
-                        <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png" class="chat_back"></a>
+                        <a href="/Home_pages/home.php" style="color:#fff;" > <img src="/Home_pages/image/icons/next.png" class="chat_back"> &nbsp BACK</a>
                         <div id="plist" class="people-list">
 
                             <!-- <div class="input-group">
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <a href="group_index.php">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                         <div class="about">
-                                            <div class="name">Group Chat</div>
+                                            <div class="name" >Group Chat</div>
                                             <!-- <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div> -->
                                         </div>
                                     </a>
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                                         <li class="clearfix">
-                                            <a href="index.php?receiver=<?= $user['username'] ?>">
+                                            <a href="index.php?receiver=<?= $user['username'] ?>" style="color: #fff;" >
                                                 <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>">
 
                                                 <div class="about">
@@ -178,21 +178,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <script>
                                 $(document).ready(function() {
-                                    var counter = 9;
+                                    // var counter = 9;
                                     window.setInterval(function() {
-                                        counter = counter - 3;
-                                        if (counter >= 0) {
-                                            document.getElementById('off').innerHTML = counter;
-                                        }
-                                        if (counter === 0) {
-                                            counter = 9;
-                                        }
+                                        // counter = counter - 3;
+                                        // if (counter >= 0) {
+                                        //     document.getElementById('off').innerHTML = counter;
+                                        // }
+                                        // if (counter === 0) {
+                                        //     counter = 9;
+                                        // }
                                         $("#chatHistoryContainer").load(window.location.href + " #chatHistoryContainer");
                                     }, 3000);
 
                                 });
                             </script>
-                            <div class="chat-message clearfix">
+                            <div class="chat-message clearfix" >
                                 <div class="input-group mb-0">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-send"></i></span>

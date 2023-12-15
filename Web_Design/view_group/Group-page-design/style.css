@@ -134,6 +134,9 @@ nav{
 .img_prof {
   margin-right: 10px; 
 }
+/* .formm{
+	width: 550px;
+} */
 .search_box{
 	
 	 width: 100%;
@@ -151,6 +154,8 @@ nav{
 	overflow: hidden;
 	height: 69px;
 	height: 95%;
+	display: flex;
+	flex-direction: column;
   }
   .search:hover{
 	height: 95%;
@@ -161,17 +166,28 @@ nav{
   }
   .search_input{
 	 height: 30px;
-	 width: 100%;
+	 width: 40%;
 	 border-radius: 10px;
   }
   
+  .search_input1{
+	height: 30px;
+	width: 40%;
+	border-radius: 10px;
+  }
+  .search_input2{
+	height: 30px;
+	width: 40%;
+	border-radius: 10px;
+  }
   .search_button{
 	margin-top: 9px;
    border-radius: 6px;
-   width: 80px;
-   height: 25px;
-   background: rgb(255, 255, 255);
-   color: darkblue;
+   width: 110px;
+   height: 40px;
+   background: rgb(30, 165, 57);
+   color: rgb(255, 255, 255);
+   font-weight: bold;
   }
   .h3{
 	font-size: 16px;
@@ -502,7 +518,7 @@ nav{
 }
 
 .yellow {
-	color: rgb(33, 147, 10);
+	color: rgba(227, 224, 64, 0.867);
 	font-weight: bold;
 	font-size: 17px;
 	margin-left: 3px;

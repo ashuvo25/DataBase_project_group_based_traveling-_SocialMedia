@@ -1,5 +1,5 @@
 body {
-    background:#353839;
+    background:#032030;
     margin-top: 20px;
 }
 
@@ -9,8 +9,8 @@ body {
 }
 
 .btn-default {
-    border-color: rgba(24, 28, 33, 0.1);
-    background  : rgba(0, 0, 0, 0);
+    border-color: rgba(181, 193, 207, 0.1);
+    background  : rgba(209, 203, 203, 0);
     color       : #4E5155;
 }
 

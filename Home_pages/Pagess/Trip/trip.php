@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="trip.css">
 </head>
 <?php
-include(__DIR__. '/../../../Web_Design/DBconnection.php');
+include(__DIR__ . '/../../../Web_Design/DBconnection.php');
 
 $group_id =   $_SESSION['view_group'];
 
@@ -22,7 +22,7 @@ $view_group = group_details($group_id);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $member = isset($_POST["member"]) ? htmlspecialchars($_POST["member"]) : "";
     $action = isset($_POST["action"]) ? htmlspecialchars($_POST["action"]) : "";
-    $groupID =$group_id;
+    $groupID = $group_id;
 
     // Update or delete the record in the group_member table
     if ($action === "accept") {
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
     <div class="trip_main">
         <header>
-            <p> <a href="/Home_pages/home.php"> <img src="/Home_pages/image/icons/next.png" alt="" width="25px" class="back_logo">BACK TO TRIPS</a>
+            <p style="color: coral ;"> <a href="/Web_Design/Profile_Edit/Home_index.php" style=" text-decoration: none ; color: coral;"> <img src="/Home_pages/image/icons/next.png" alt="" width="25px" class="back_logo">BACK TO TRIPS</a>
             </p>
 
 
@@ -83,60 +83,93 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             </div>
-            <div class="links_section1">
-                <!-- <button class="icon_btn baa" ><img src="/Home_pages/image/icons/message.png" alt="" width="25px">Send Message</button>
-                <button class="icon_btn baa1"><img src="/Home_pages/image/icons/click.png" alt="" width="25px">Join this trip</button>
-                <button class="icon_btn baa2"><img src="/Home_pages/image/icons/comments.png" alt="" width="25px">Comment</button>
-                <button class="icon_btn baa3"><img src="/Home_pages/image/icons/wave.png" alt="" width="25px">Send a wave</button>
-                <button class="icon_btn baa"><img src="/Home_pages/image/icons/favourite.png" alt="" width="25px">Add to Favorites</button> -->
-                <button class="icon_btn baa" id="messageButton"><img src="/Home_pages/image/icons/message.png" alt="" width="25px">Send Message</button>
-                <button class="icon_btn baa2"><img src="/Home_pages/image/icons/comments.png" alt="" width="25px">Comment</button>
-                <button class="icon_btn baa1"><img src="/Home_pages/image/icons/click.png" alt="" width="25px">Edit Group</button>
-                <button class="icon_btn baa3" id="requestButton"><img src="/Home_pages/image/icons/wave.png" alt="" width="25px">Request</button>
+            <div class="accpted">
+            <header  style="  margin-left: 50px; ">
+                <p style=" text-decoration: underline;  ">Team Members</p>
+                </header>
+                <?php
+                $details_member = group_member($view_group["Group_ID"]);
 
+                if ($details_member !== null) {
+                    echo '<div class="notification">';
+                    echo '<ul class="friend-request-list">';
 
-            </div>
-            
-            <?php
-            $details = add_request($view_group["Group_ID"]);
+                    foreach ($details_member as $detail_m) {
+                        echo '<li class="friend-request">';
+                        echo '<div class="friend-request-header">';
+                        echo '<div class="friend-request-profile">';
+                        echo '<img src=" /Home_pages/uploads/' . $detail_m['prof_text'] . '" alt="Profile Photo">';
+                        echo '</div>';
+                        echo '<div class="friend-request-info">';
+                        echo '<p>' . $detail_m['name'] . '</p>';
+                        echo '</div>';
+                        echo '</div>';
+                        // echo '<div class="friend-request-buttons">';
+                        // echo '<form method="post" action="trip.php">';
+                        // echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
+                        // // echo '<input type="hidden" name="action" value="accept">';
+                        // // echo '<button class="accept-button">Accept</button>';
+                        // echo '</form>';
 
-            if ($details !== null) {
-                echo '<div class="notification">';
-                echo '<ul class="friend-request-list">';
+                        // echo '<form method="post" action="trip.php">';
+                        // echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
+                        // echo '<input type="hidden" name="action" value="reject">';
+                        // echo '<button class="reject-button">Reject</button>';
+                        // echo '</form>';
+                        // echo '</div>';
+                        echo '</li>';
+                    }
 
-                foreach ($details as $detail) {
-                    echo '<li class="friend-request">';
-                    echo '<div class="friend-request-header">';
-                    echo '<div class="friend-request-profile">';
-                    echo '<img src="' . $detail['profile_photo'] . '" alt="Profile Photo">';
+                    echo '</ul>';
                     echo '</div>';
-                    echo '<div class="friend-request-info">';
-                    echo '<p>' . $detail['name'] . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '<div class="friend-request-buttons">';
-                    echo '<form method="post" action="trip.php">';
-                    echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
-                    echo '<input type="hidden" name="action" value="accept">';
-                    echo '<button class="accept-button">Accept</button>';
-                    echo '</form>';
-
-                    echo '<form method="post" action="trip.php">';
-                    echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
-                    echo '<input type="hidden" name="action" value="reject">';
-                    echo '<button class="reject-button">Reject</button>';
-                    echo '</form>';
-                    echo '</div>';
-                    echo '</li>';
                 }
+                ?>
+            </div>
+            <div class="accpted_1">
+            <header  style="  margin-left: 50px; ">
+                <p style=" text-decoration: underline;  ">Requests</p>
+                </header>
 
-                echo '</ul>';
-                echo '</div>';
-            } else {
-                echo 'No friend requests.';
-            }
-            ?>
+                <?php
+                $details = add_request($view_group["Group_ID"]);
 
+                if ($details !== null) {
+                    echo '<div class="notification">';
+                    echo '<ul class="friend-request-list">';
+
+                    foreach ($details as $detail) {
+                        echo '<li class="friend-request">';
+                        echo '<div class="friend-request-header">';
+                        echo '<div class="friend-request-profile">';
+                        echo '<img src=" /Home_pages/uploads/' . $detail['prof_text'] . '" alt="Profile Photo">';
+                        echo '</div>';
+                        echo '<div class="friend-request-info">';
+                        echo '<p>' . $detail['name'] . '</p>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="friend-request-buttons">';
+                        echo '<form method="post" action="trip.php">';
+                        echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
+                        echo '<input type="hidden" name="action" value="accept">';
+                        echo '<button class="accept-button">Accept</button>';
+                        echo '</form>';
+
+                        echo '<form method="post" action="trip.php">';
+                        echo '<input type="hidden" name="member" value="' . $detail['username'] . '">';
+                        echo '<input type="hidden" name="action" value="reject">';
+                        echo '<button class="reject-button">Reject</button>';
+                        echo '</form>';
+                        echo '</div>';
+                        echo '</li>';
+                    }
+
+                    echo '</ul>';
+                    echo '</div>';
+                } else {
+                    echo 'No requests.';
+                }
+                ?>
+            </div>
         </div>
 
         <div class="extras_item">
@@ -145,9 +178,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <p> <img src="/Home_pages/image/icons/journey_type.png" alt="" width="25px"> Type Of Journey :<?php echo $view_group["Type_of_journey"] ?></p>
             <p> <img src="/Home_pages/image/icons/sex.png" alt="" width="25px"> Looking for : <?php echo $view_group["Gender"] ?></p>
             <p> <img src="/Home_pages/image/icons/meeting.png" alt="" width="25px"> Meetup point: <?php echo $view_group["Meetup_Point"] ?></p>
-            <p> <img src="/Home_pages/image/icons/meeting.png" alt="" width="25px"> Meetup Time: time ?></p>
+            <p> <img src="/Home_pages/image/icons/meeting.png" alt="" width="25px"> Meetup Time: <?php echo $view_group["Time"] ?></p>
             <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
-            <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p>
+            <!-- <p> <img src="/Home_pages/image/icons/talking.png" alt="" width="25px"> Language : BANGLA</p> -->
         </div>
 
 
@@ -222,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </table>
     </div>
 
-    
+
 
 
 </body>

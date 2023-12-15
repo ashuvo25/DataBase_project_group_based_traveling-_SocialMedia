@@ -4,11 +4,15 @@
     box-sizing: border-box;
     font-family:  Arial, Helvetica, sans-serif;
 }
-
+body{
+    background:#032030 ;
+    color: #fff;
+}
 .trip_main{
-    border: 1px solid black;
+    border: 1px solid rgb(255, 255, 255);
     margin-top: 10px;
     width: 100%;
+    background: #003554;
 }
 
 header{
@@ -217,7 +221,7 @@ table {
     margin: 20px 20px 20px 0; /* Adjust margin for spacing between tables */
     border-collapse: collapse;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: #ffffffa9;
     float: left; /* Float tables to the left */
 }
 
@@ -235,12 +239,14 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #4caf4fa8;
+    color: rgba(17, 13, 13, 0.862);
 }
-
+tr,td{
+    color: rgba(0, 0, 0, 0.792);
+}
 tr:hover {
-    background-color: #f5f5f5;
+    background-color: #f5f5f59e;
 }
 
 .notification{
@@ -248,23 +254,27 @@ tr:hover {
     flex-direction:row;
     align-items: flex-end; 
     font-family: 'Arial', sans-serif;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     display: flex;
     align-items: top;
-    width: 20%;
+    /* width: 20%; */
     justify-content: center;
     overflow: scroll;
+    width: 220px;
+    /* background: #45a049; */
+    border: 1px solid rgba(0, 0, 0, 0.626);
+    margin-left: 3px;
    
 }
 
 .friend-request-list {
     list-style: none;
-    padding: 10px;
+    padding: 2px;
     margin: 0;
     display: flex-end;
     flex-direction: column;
     gap: 10px;
-    width: 80%;
+    width: 98%;
     height: 300px;
 }
 
@@ -272,10 +282,10 @@ tr:hover {
     /* background-color: #fff; */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 8px;
+    padding: 0px;
     max-width: 300px;
     width: 100%;
-    height:30%;
+    height:16%;
 }
 
 .friend-request-header {
@@ -331,3 +341,23 @@ tr:hover {
 .accept-button:hover, .reject-button:hover {
     background-color: #45a049;
 }
+
+thead tr {
+     background: #003554;
+}
+
+.accpted_1{
+    width: 220px; 
+    background: #45a04900;
+    border: 1px solid rgba(0, 0, 0, 0.626);
+    margin-left: 3px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    scrollbar-width: 0px;
+}
+/* .accpted_1::-webkit-scrollbar {
+    display: none;
+  }
+.accpted::-webkit-scrollbar {
+    display: none;
+  } */

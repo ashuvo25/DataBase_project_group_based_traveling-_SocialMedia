@@ -36,7 +36,7 @@ function test_input($data)
 $userInfo = select_profile_edit($username);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    
     $postData = array(
         'name' => isset($_POST['name']) && $_POST['name'] !== '' ? test_input($_POST['name']) : $Name,
         'company' => isset($_POST['company']) ? test_input($_POST['company']) : $Company,
@@ -55,17 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($postData['currentPassword']) && !empty($postData['newPassword']) && !empty($postData['repeatNewPassword'])) {
         if ($postData['currentPassword'] == $passwords) {
             if ($postData['newPassword'] == $postData['repeatNewPassword']) {
-                if (preg_match('/[0-9]/', $postData['newPassword']) && preg_match('/[a-zA-Z]/', $postData['newPassword'])) {
+                if (preg_match('/[0-9]/', $postData['newPassword'] ) ) {
                     updatePassword($user, $postData['newPassword']);
-                    echo "Password updated successfully";
-                } else {
-                    echo "Password must contain at least one number and one letter";
+                    echo "<script>alert('Password updated successfully.')</script>";
+                } else{
+                    echo "<script> alart('New password and repeat password Should be 8 digits') </script>";
                 }
             } else {
-                echo "New password and repeat password do not match";
+                echo "<script> alart('New password and repeat password do not match')</script>";
             }
         } else {
-            echo "Invalid old password";
+            echo "<script>alert('Invalid old password.')</script>";
         }
     } else {
         // Update profile if password fields are empty
@@ -96,25 +96,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </h4>
         <div class="card overflow-hidden">
             <div class="row no-gutters row-bordered row-border-light" >
-                <div class="col-md-3 pt-0" style=" background:#003554;">
-                    <div class="list-group list-group-flush account-settings-links" style="background:#495159; color:#fff" >
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general" style="background:#495159; color:#fff">General</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password"style="background:#495159; color:#fff">Change password</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info" style="background:#495159; color:#fff">Info</a>
+                <div class="col-md-3 pt-0" style="background: #032030; color: #ffffff; ">
+                    <div class="list-group list-group-flush account-settings-links" style="background:#fff; color:#ffffff" >
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general" style="background: #032030; color:#ffffff">General</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password"style="background: #032030; color:#ffffff">Change password</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info" style="background: #032030; color:#ffffff">Info</a>
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links" style="background:#495159; color:#fff">Social links</a> -->
                         <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections" style="background:#495159; color:#fff">Connections</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications" style="background:#495159; color:#fff">Notifications</a> -->
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9" style="color: #fff;" >
                     <form method="post">
-                        <div class="tab-content">
+                        <div class="tab-content" style="background: #032030;" >
 
                             <!--   --------------------------- general account start ------------------------------------->
 
 
-
-                            <div class="tab-pane fade active show" id="account-general">
+                            <div class="tab-pane fade active show" id="account-general" style="background:#003554; color: #fff; " >
                                
                                 <hr class="border-light m-0">
                                 <div class="card-body">
@@ -161,11 +160,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="card-body pb-2">
                                     <div class="form-group">
                                         <label for="current-password" class="form-label">Current password</label>
-                                        <input type="password" class="form-control" id="current-password" name="current_password" placeholder="Inpu Current password">
+                                        <input type="password" class="form-control" id="current-password" name="current_password" placeholder="Input Current password">
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password" class="form-label">New password</label>
-                                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="At least one character and one number">
+                                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Must be 8 digits">
                                     </div>
                                     <div class="form-group">
                                         <label for="Repeat_new_password" class="form-label">Repeat new password</label>
@@ -322,10 +321,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                 </div>
                             </div> -->
-                            <div class="text-right mt-3">
+                            <div class="text-right mt-3" style="background: #032030;color:#fff; " >
 
-                                <input type="submit" name="submit" class="btn btn-primary" value="Save changes" required>&nbsp;
-                                <input type="submit" name="submit" class="btn btn-default" value="Cancel" required>
+                                <input type="submit" name="submit" class="btn btn-primary" value="Save changes" required style="background: green;color:#fff; ">&nbsp;
+                                <input type="submit" name="submit" class="btn btn-default" value="Cancel" required style="background:green;color:#fff; ">
                             </div>
                         </div>
                     </form>

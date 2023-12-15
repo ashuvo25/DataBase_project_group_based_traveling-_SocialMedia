@@ -3,11 +3,16 @@
 include(__DIR__ . "/../../../Web_Design/DBconnection.php");
 
 include(__DIR__ . '/../../server.php');
+// $domain="";
+
+$eeeee='';
 if (isset($_POST['authorizeSubmit'])) {
     $email = isset($_POST['emaili']) ? $_POST['emaili'] : '';
     // Fetch allowed domains from the database table
+    $eeeee = $email;
     $allowedDomainsQuery = "SELECT domain FROM univ_domain";
     $allowedDomainsResult = mysqli_query($conn, $allowedDomainsQuery);
+    
     if (!$allowedDomainsResult) {
         echo "Error fetching allowed domains from the database";
         exit;
@@ -43,35 +48,46 @@ if (isset($_POST['authorizeSubmit'])) {
 } elseif (isset($_POST['otpSubmit'])) {
     $enteredOTP = isset($_POST['otp']) ? $_POST['otp'] : '';
     if (isset($_SESSION['otp']) && $_SESSION['otp'] == $enteredOTP) {
-        echo 'Thank you for verification!';
+       // echo 'Thank you for verification!';
         // $Name = ''; 
+        $emailParts = explode('@bscse.', $eeeee);
+        if (isset($emailParts[1])) {
+            $domain = $emailParts[1];
+        } else {
+        
+            $domain = ''; 
+        }
         $postData = array(
             'verified_mail' => isset($_SESSION['emaili']) && $_SESSION['emaili'] !== '' ? $_SESSION['emaili'] : $Name,
             'verified' => "YES",
+            'domain'=>$domain,
+            
             // 'username' =>
         );
 
         if (!empty($_SESSION['emaili'])) {
 
             updateProfile($postData);
-            echo '<script>alert("verified successfully!");</script>';
-            header('Location: /Home_pages/home.php');
+            echo '<script>';
+    echo 'alert("verified successfully!");';
+    echo 'setTimeout(function() { window.location.href = "/Home_pages/home.php"; }, 10000);'; 
+    echo '</script>';
         }
-
+        
         exit;
     } else {
         echo 'Incorrect OTP. Please try again.';
     }
 }
 
-if (isset($_SESSION['showOTPForm']) && $_SESSION['showOTPForm']) {
-    echo '<script>';
-    echo 'document.getElementById("authorizeForm").style.display = "none";';
-    echo 'document.getElementById("otpForm").style.display = "block";';
-    echo '</script>';
-    unset($_SESSION['showOTPForm']); // Reset the flag
+// if (isset($_SESSION['showOTPForm']) && $_SESSION['showOTPForm']) {
+//     echo '<script>';
+//     echo 'document.getElementById("authorizeForm").style.display = "none";';
+//     echo 'document.getElementById("otpForm").style.display = "block";';
+//     echo '</script>';
+//     unset($_SESSION['showOTPForm']); // Reset the flag
 
-}
+// }
 function generateOTP()
 {
     return rand(100000, 999999);
@@ -251,54 +267,48 @@ function sendEmail($email, $otp)
 
         <div id="authorizeForm" class="verification-form">
             <form method="post" action="veified.php">
-                <label for="email">Email:</label>
+                <label for="email"   style="color:#fff;" >Email:</label>
                 <input type="email" id="email" name="emaili" required>
-                <button type="submit" name="authorizeSubmit">Submit</button>
+                <button type="submit" id="subbmmiit" name="authorizeSubmit">Submit</button>
             </form>
 
-            <div id="otpForm" class="verification-form1" style="display: block;">
+         
+        </div>
+
+
+        <div id="normalForm" class="image-inputs">
+            <label for="image1" style="color:#fff;">NID Front:</label>
+            <input type="file" id="image1" name="image1" accept="image/*" required>
+            <label for="image2" style="color:#fff;">NID Back:</label>
+            <input type="file" id="image2" name="image2" accept="image/*" required>
+            <label for="image3" style="color:#fff;">Self_Image:</label>
+            <input type="file" id="image3" name="image3" accept="image/*" required>
+            <button type="submit">Submit</button>
+        </div>
+        <div id="otp" class="verification-form1" style="display: block;">
                 <form method="post" action="veified.php">
-                    <label for="otp">OTP:</label>
+                    <label for="otp" style="color:#fff;">OTP:</label>
                     <input type="text" id="otp" name="otp" required>
                     <button type="submit" name="otpSubmit">Submit OTP</button>
                 </form>
             </div>
 
-        </div>
-
-
-        <div id="normalForm" class="image-inputs">
-            <label for="image1">Image 1:</label>
-            <input type="file" id="image1" name="image1" accept="image/*" required>
-            <label for="image2">Image 2:</label>
-            <input type="file" id="image2" name="image2" accept="image/*" required>
-            <label for="image3">Image 3:</label>
-            <input type="file" id="image3" name="image3" accept="image/*" required>
-            <button type="submit">Submit</button>
-        </div>
-
 
     </div>
 
     <script>
-        function showForm(option) {
-            if (option === 'authorize') {
-                document.getElementById('authorizeForm').style.display = 'block';
-                document.getElementById('normalForm').style.display = 'none';
-
-            } else {
-                document.getElementById('authorizeForm').style.display = 'none';
-                document.getElementById('normalForm').style.display = 'block';
-                document.getElementById('otpForm').style.display = 'none';
-            }
-
-
-        }
-
-        function showOTPForm() {
+    function showForm(option) {
+        if (option === 'authorize') {
+            document.getElementById('authorizeForm').style.display = 'block';
+            document.getElementById('normalForm').style.display = 'none';
+            document.getElementById('otp').style.display = 'block'; // Hide OTP form when switching to 'authorize'
+        } else if (option === 'normal') {
             document.getElementById('authorizeForm').style.display = 'none';
-            document.getElementById('otpForm').style.display = 'block';
+            document.getElementById('normalForm').style.display = 'block';
+            document.getElementById('otp').style.display = 'none'; // Hide OTP form when switching to 'normal'
         }
+    }
+
     </script>
 
 </body>

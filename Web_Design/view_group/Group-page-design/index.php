@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 
 <?php
-include(__DIR__.'/../../DBconnection.php');
+include(__DIR__ . '/../../DBconnection.php');
 ?>
 
 <?php
-$groupInfo = group_view();
+
 $username = $_SESSION['username'];
 $link = select_profile_edit($username);
+$groupInfo = group_view($link['domain']);
 
 ?>
 
@@ -53,6 +54,25 @@ if (isset($_GET['variable1'])) {
 
    $checkStmt->close();
 }
+
+if (isset($_POST['search_button'])) {
+   // Get search parameters from the form
+   $startLocation = isset($_POST['search_text']) ? $_POST['search_text'] : null;
+   $endLocation = isset($_POST['search_text1']) ? $_POST['search_text1'] : null;
+   $startDate = isset($_POST['search_text2']) ? $_POST['search_text2'] : null;
+
+   // Call the function with the search parameters
+   $search_params = [
+      'start_location' => $startLocation,
+      'end_location' => $endLocation,
+      'start_date' => $startDate,
+      'university'=> $startDate = isset($_POST['university']) ? $_POST['university'] : null,
+   ];
+
+   $groupInfo = search_group_view($link['domain'], $search_params);
+}
+
+
 ?>
 
 
@@ -82,11 +102,11 @@ if (isset($_GET['variable1'])) {
          </div>
          <ul>
             <li class="nav_list"> <a href="/Home_pages/home.php"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
-            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/friends.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
+            <li class="nav_list"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
             <li class="nav_list"> <a href="/Home_pages/Pagess/verification/veified.php"><img src="/Home_pages/image/icons/verified.png" class="nav_icon"><span class="span_text">Verification</span></a></li>
-            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
+            <li class="nav_list"> <a href="/Web_Design/Chat_Box/index.php"><img src="/Home_pages/image/icons/comments.png" class="nav_icon"><span class="span_text">Message</span></a></li>
          </ul>
       </div>
       <div class="nav_right">
@@ -106,14 +126,14 @@ if (isset($_GET['variable1'])) {
          <?php if ($link['verified'] == "YES") { ?>
             <div class="profile">
                <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
-               <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+                  <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
                   <p><?php echo $name; ?></p>
                </a>
             </div>
          <?php } else { ?>
             <div class="profile_1">
                <a href="/Web_Design/Profile_Edit/Home_index.php" class="profile-link">
-               <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
+                  <img src="<?php echo '/Home_pages/uploads/' . $link['image']; ?>" alt="" height="40px" width="40px" class="img_prof">
                   <p><?php echo $name; ?></p>
                </a>
             </div>
@@ -123,7 +143,7 @@ if (isset($_GET['variable1'])) {
    <!-- ------------------------------------------ Shuuvo ADDD       -->
    <div class="container">
 
-   <!-- Home_pages\Pagess\verification\veified.php -->
+      <!-- Home_pages\Pagess\verification\veified.php -->
 
       <?php if ($link['verified'] == "YES") { ?>
          <div class="left_sidebar">
@@ -143,10 +163,19 @@ if (isset($_GET['variable1'])) {
             <!-- Search box -->
             <div class="search_box">
                <div class="search">
+                  <form action="" method="post" class="formm">
+                     <label for="search_text" style="color: #fff;">From:</label>
+                     <input type="text" name="search_text" id="" placeholder="From" class="search_input">
+                     <label for="search_text1" style="color: #fff;">To:</label>
+                     <input type="text" name="search_text1" id="" placeholder="TO" class="search_input1">
+                     <label for="search_text2" style="color: #fff;">Start_date:</label>
+                     <input type="text" name="search_text2" id="" placeholder="Start Date" class="search_input2">
 
-                  <form action="">
-                     <input type="text" name="search_text" id="" placeholder="Search for anything" class="search_input">
-                     <button type="submit" value="Search" class="search_button">Search</button>
+                     <!-- Add the checkbox for "University" -->
+                     <label for="university" style="color: #fff;">University:</label>
+                     <input type="checkbox" name="university" id="university" value="1">
+
+                     <button type="submit" name="search_button" value="Search" class="search_button">Search</button>
                   </form>
                </div>
             </div>
@@ -195,13 +224,13 @@ if (isset($_GET['variable1'])) {
                         <div class="box">
                            <div class="img-container">
                               <img alt="user photo" src="<?php echo '/Home_pages/uploads/' . $group['prof_text']; ?>">
-                              <h4 class="Host"><?php echo "$User_name" ?></h4>
+                              <h4 class="Host" style="color: gold;"><?php echo "$User_name" ?></h4>
                            </div>
                            <div class="content">
                               <h2 class="content_h2"><?php echo $Title ?></h2>
                               <h4>
-                                 <span class="Group_name"><?php echo "$From TO $to" ?></span> <br>
-                                 <span class="Date"><?php echo "$Start_date TO $End_date" ?></span>
+                                 <span class="Group_name" style="color: #fff;"><?php echo "$From TO $to" ?></span> <br>
+                                 <span class="Date" style="color:gold ;"><?php echo "$Start_date TO $End_date" ?></span>
                               </h4>
                               <?php
 
@@ -212,21 +241,21 @@ if (isset($_GET['variable1'])) {
                               $r = $checkStmt->get_result();
                               if ($r->num_rows > 0) {
                               ?>
-                                 <p class="btn-area">
-                                    <a href="index.php?variable1=<?php echo $group["Group_ID"]; ?>" id="requestButton">
+                                 <p class="btn-area" style="color: #fff; background: green; ">
+                                    <a href="index.php?variable1=<?php echo $group["Group_ID"]; ?>" id="requestButton" style=" text-decoration: none; ">
                                        <img src="add-group.png" class="icon_img" alt="">
 
-                                       <span class="btn2">Requested</span>
+                                       <span class="btn2" style="color: #fff; background: green; ">Requested</span>
                                     </a>
                                  </p>
                               <?php
                               } else {
                               ?>
-                                 <p class="btn-area">
-                                    <a href="index.php?variable1=<?php echo $group["Group_ID"]; ?>" id="requestButton">
+                                 <p class="btn-area" style="color: #fff; background: green; ">
+                                    <a href="index.php?variable1=<?php echo $group["Group_ID"]; ?>" id="requestButton" style=" text-decoration: none; ">
                                        <img src="add-group.png" class="icon_img" alt="">
 
-                                       <span class="btn2">Request</span>
+                                       <span class="btn2" style="color: #fff; background: green; ">Request</span>
                                     </a>
                                  </p>
                               <?php
@@ -279,13 +308,13 @@ if (isset($_GET['variable1'])) {
          <div class="imp-links">
 
             <a href=""><img src="/Home_pages/image/icons/newspaper.png" class="friend">&nbsp Latest Update</a>
-            <a href=""><img src="/Home_pages/image/icons/friends.png" class="friend">&nbsp Friends</a>
-            <a href=""><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
+            <!-- <a href=""><img src="/Home_pages/image/icons/friends.png" class="friend">&nbsp Friends</a> -->
+            <a href="/Web_Design/Profile_Edit/Home_index.php#"><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
             <a href=""><img src="/Home_pages/image/icons/activity.png" class="friend">&nbsp Activity</a>
             <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Travel</a>
 
 
-            <span class="more-options">
+            <span class="more-options1">
                <a href="google"><img src="/Home_pages/image/icons/memoris.png" class="friend">&nbsp Memoris</a>
                <a href=""><img src="/Home_pages/image/icons/deal.png" class="friend">&nbsp Promotions</a>
                <a href=""><img src="/Home_pages/image/icons/events.png" class="friend">&nbsp Events</a>
@@ -294,15 +323,15 @@ if (isset($_GET['variable1'])) {
             </span>
 
          </div>
-         <span class="more">
+         <!-- <span class="more">
             See More... &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-         </span>
+         </span> -->
 
          <!-- extra links ------------------------------------------------------------------------------------------- -->
-         <div class="extra">
-            <p class="p_extra"><br>Your Shortcuts</p>
+         <!-- <div class="extra"> -->
+            <!-- <p class="p_extra"><br>Your Shortcuts</p>
 
-            <div class="extra_links">
+            <!-- <div class="extra_links">
                a <br>
                a <br>
                a <br>
@@ -329,8 +358,8 @@ if (isset($_GET['variable1'])) {
                a <br>
                a <br>
                a <br>
-            </div>
-         </div>
+            </div> -->
+         <!-- </div> -->
 
          <div class="short-cut">
             <p></p>
@@ -342,7 +371,7 @@ if (isset($_GET['variable1'])) {
    </div>
 
 
-
+<!-- 
 
    <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -354,7 +383,7 @@ if (isset($_GET['variable1'])) {
             moreButton.textContent = moreOptions.classList.contains('more-options--show') ? "See Less..." : "See More...";
          });
       });
-   </script>
+   </script> -->
 </body>
 
 </html>

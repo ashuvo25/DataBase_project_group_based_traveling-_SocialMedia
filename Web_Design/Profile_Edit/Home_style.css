@@ -181,6 +181,7 @@ nav{
   position: relative;
   margin: 0 auto;
   background: #003554;
+  color: #fff; 
 }
 
 .header__wrapper .cols__container .left__col .img__container {
@@ -233,7 +234,7 @@ nav{
 .header__wrapper .cols__container .left__col .about li {
   display: flex;
   flex-direction: column;
-  color: #161414bb;
+  color: #ffffff;
   font-size: 0.9rem;
 }
 
@@ -254,7 +255,7 @@ nav{
 
 .header__wrapper .cols__container .content p {
   font-size: 1rem;
-  color: #ffffffa1;
+  color: #ffffff;
   line-height: 1.8em;
 }
 
@@ -266,6 +267,12 @@ nav{
 }
 .nav_iconss li{
    margin-left: 10px;
+}
+.nav_iconss ul li a:hover{
+   color: darkgoldenrod;
+}
+.nav_iconss ul li :hover{
+   color: darkgoldenrod;
 }
 .nav_iconss button{
    margin-right: 10px;
@@ -290,7 +297,7 @@ nav{
 .header__wrapper .cols__container .right__col nav {
   display: flex;
   align-items: center;
-  padding: 30px 0;
+  padding: 8px 0;
   justify-content: space-between;
   flex-direction: column;
 }
@@ -304,6 +311,10 @@ nav{
 .header__wrapper .cols__container .right__col nav ul li a {
   text-transform: uppercase;
   color: #16c0a0;
+}
+.header__wrapper .cols__container .right__col nav ul li a:hover  {
+ 
+  color: #c01679;
 }
 
 .header__wrapper .cols__container .right__col nav ul li:nth-child(1) a {
@@ -346,6 +357,7 @@ nav{
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 15px;
+  height: auto;
 }
 
 .prof {
@@ -544,7 +556,7 @@ nav{
 	height: 210px;
 	overflow: hidden;
 	margin-bottom: 20px;
-	background: #fff;
+	background: #072e43;
 	transition: all .6s ease;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   
@@ -669,7 +681,7 @@ nav{
 }
 
 .yellow {
-	color: rgb(76, 76, 17);
+	color: rgb(240, 240, 100);
 	font-weight: bold;
 	font-size: 17px;
 	margin-left: 3px;
@@ -831,3 +843,71 @@ nav{
 input[type=file]::-webkit-file-upload-button {
   cursor: pointer;
 }
+
+/* --------------------------------------------shuvo----------------------------- */
+
+.story_one_time{
+  height: 70px;
+  width: 100%;
+  border: 1px solid darkblue;
+ 
+}
+
+.img_level{
+  color:#fff;
+}
+.imageinp{
+  color: green;
+  border: 1px solid teal;
+  
+}
+.story_post{
+  margin-bottom: 35px;
+}
+.btn{
+  width: 65px;
+  height: 35px;
+  margin-left: 75px;
+  border-radius: 5px;
+  background: #003554;
+  color: #fff;
+}
+
+.img_posts{
+  margin-left: 50px;
+  padding: 10px;
+}
+
+.user_name{
+  display: flex;
+  
+}
+.img_prof{
+  border-radius: 50%;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+.name_ppp{
+  margin-top: 7px;
+  margin-bottom: 7px;
+  margin-left: 1px;
+}
+
+.prof_name{
+  color: #ffffff;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  padding: 5px;
+}
+.p_date{
+  font-size: 12px;
+  padding: 5px;
+}
+.imageinp{
+  width: 90px;
+  background: #00c2ff;
+}
+
+
+

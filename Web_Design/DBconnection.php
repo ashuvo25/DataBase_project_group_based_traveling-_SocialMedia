@@ -269,7 +269,7 @@ function getGroupList($loggedInUser)
 
 
 
-function group_view()
+function group_view($domain)
 {
     global $conn;
 
@@ -277,7 +277,7 @@ function group_view()
             FROM group_details
             LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
             LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
-            WHERE (group_details.Privacie = 'Public' OR signups.verified = 'YES') and group_details.Start_date>CURRENT_DATE
+            WHERE (group_details.Privacie = 'Public' OR signups.domain = '$domain') and group_details.Start_date>CURRENT_DATE
             ORDER BY signups.verified DESC, group_details.Time DESC, group_details.Privacie ";
 
     $result = $conn->query($sql);
@@ -300,6 +300,62 @@ function group_view()
 }
 
 
+function search_group_view($domain, $search_params)
+{
+    global $conn;
+
+
+    $startLocation = $search_params['start_location'] ?? null;
+    $endLocation = $search_params['end_location'] ?? null;
+    $startDate = $search_params['start_date'] ?? null;
+    $university=$search_params['university']??null;
+
+  
+    $whereClause = "(group_details.Privacie = 'Public' OR signups.domain = '$domain') and group_details.Start_date > CURRENT_DATE";
+
+    if (!empty($startLocation)) {
+        $whereClause .= " AND group_details.FromLocation = '$startLocation'";
+    }
+
+    if (!empty($endLocation)) {
+        $whereClause .= " AND group_details.ToLocation = '$endLocation'";
+    }
+
+    if (!empty($startDate)) {
+        $whereClause .= " AND group_details.Start_date >= '$startDate'";
+    }
+    if(!empty($university)){
+        $whereClause .=" AND signups.domain = '$domain'";
+    }
+
+    // Construct the final SQL query
+    $sql = "SELECT group_details.*, signups.name, signups.prof_text
+            FROM group_details
+            LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
+            LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
+            WHERE $whereClause
+            ORDER BY signups.verified DESC, group_details.Time DESC, group_details.Privacie";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $groups = array(); // Initialize an array to store multiple rows
+        while ($row = $result->fetch_assoc()) {
+            $group = array();
+            foreach ($row as $key => $value) {
+                $group[$key] = $value; // Map the attribute name to its value
+            }
+            $group["User_Name"] = $row["name"]; // Add the "User_Name" attribute
+            $groups[] = $group; // Append the current row to the array
+        }
+        return $groups;
+    } else {
+        return null;
+    }
+}
+
+
+
 function host_group_view($username)
 {
     global $conn;
@@ -309,7 +365,7 @@ function host_group_view($username)
     LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
     LEFT JOIN signups ON group_signups.username = signups.username AND group_signups.email = signups.email
     WHERE  group_signups.username='$username' 
-    ORDER BY group_signups.timestamp DESC, group_details.Privacie; ";
+    ORDER BY group_signups.timestamp DESC ";
 
     $result = $conn->query($sql);
 
@@ -347,7 +403,7 @@ function updatePassword($username, $newPassword)
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo "Password updated successfully";
+            echo '  <script>alart("Password updated successfully")</script>';
         } else {
             echo "Error updating password: " . $stmt->error;
         }
@@ -384,7 +440,8 @@ function select_profile_edit($username)
                 // "website" => $row["website"],
                 // "company" => $row["company"]
                 "verified" => $row['verified'],
-                "bio"=>$row['bio'],
+                "bio" => $row['bio'],
+                "domain"=>$row['domain'],
 
             );
         }
@@ -478,7 +535,7 @@ function add_request($groupid)
 {
     global $conn;
 
-    $sql = "SELECT signups.name, signups.username, group_member.group_id
+    $sql = "SELECT signups.*, group_member.group_id
             FROM group_member, signups
             WHERE group_member.member = signups.username 
             AND group_member.group_id = $groupid 
@@ -507,7 +564,7 @@ function onlymember($username)
     global $conn;
 
     // Using a prepared statement to prevent SQL injection
-    $sql = "SELECT group_details.*
+    $sql = "SELECT group_details.*,group_signups.username
     FROM group_details
     LEFT JOIN group_signups ON group_details.Group_ID = group_signups.Group_ID
     LEFT JOIN group_member ON group_member.group_id = group_details.Group_ID
@@ -626,33 +683,29 @@ function checkIfUsersFollowEachOther($user1, $user2)
     // Return true if both users follow each other, otherwise return false
     return mysqli_num_rows($result1) > 0 && mysqli_num_rows($result2) > 0;
 }
-function countFollowing($type,$user)
+function countFollowing($type, $user)
 {
     global $conn;
 
-    if($type=="follower"){
+    if ($type == "follower") {
         $query = "SELECT COUNT(*) AS followingCount
         FROM connection
         WHERE `following` = ?";
-    }
-    elseif($type=="following"){
+    } elseif ($type == "following") {
         $query = "SELECT COUNT(*) AS followingCount
         FROM connection
         WHERE `follower` = ?";
-    }
-    elseif($type=="host"){
+    } elseif ($type == "host") {
         $query = "SELECT COUNT(*) AS followingCount
         FROM group_signups
         WHERE `username` = ?";
-    }
-    elseif($type=="total"){
+    } elseif ($type == "total") {
         $query = "SELECT COUNT(*) AS followingCount
         FROM group_member
-        WHERE `member` = ?";
-
+        WHERE `member` = ? and request='YES' ";
     }
 
-   
+
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $user);
@@ -660,9 +713,27 @@ function countFollowing($type,$user)
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
 
-   
+
     mysqli_stmt_close($stmt);
 
 
     return $row['followingCount'];
 }
+function group_member($group_id)
+{
+    global $conn;
+    $sql = "SELECT group_member.*, signups.*
+            FROM group_member, signups
+            WHERE group_member.member = signups.username AND group_member.request = 'YES' AND group_id=?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $group_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $output = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output[] = $row;
+    }
+    mysqli_stmt_close($stmt);
+    return $output;
+}
+

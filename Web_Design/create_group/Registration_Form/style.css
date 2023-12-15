@@ -11,7 +11,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #4070f4;
+    background: #032030;
 }
 .container{
     position: relative;
@@ -20,16 +20,17 @@ body{
     border-radius: 6px;
     padding: 30px;
     margin: 0 15px;
-    background-color: #fff;
+    background-color: #003554;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 .container header{
-    position: relative;
+   display: flex;
+   align-items: center;
     font-size: 20px;
     font-weight: 600;
-    color: #333;
+    color: #ffffff;
 }
-.container header::before{
+/* .container header::before{
     content: "";
     position: absolute;
     left: 0;
@@ -37,8 +38,8 @@ body{
     height: 3px;
     width: 27px;
     border-radius: 8px;
-    background-color: #4070f4;
-}
+    background-color: #003554;
+} */
 .container form{
     position: relative;
     margin-top: 16px;
@@ -48,31 +49,18 @@ body{
 }
 .container form .form{
     position: absolute;
-    background-color: #fff;
+    background-color: #003554;
     transition: 0.3s ease;
+    color: #fff;
 }
-/* .container form .form.second{
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(100%);
-}
-form.secActive .form.second{
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(0);
-}
-form.secActive .form.first{
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-100%);
-} */
+
 .container form .title{
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: 500;
     margin: 6px 0;
-    color: #333;
+    color: #ffffff;
 }
 .container form .fields{
     display: flex;
@@ -89,13 +77,14 @@ form .fields .input-field{
 .input-field label{
     font-size: 12px;
     font-weight: 500;
-    color: #2e2e2e;
+    color: #ffffff;
 }
+
 .input-field input, select{
     outline: none;
     font-size: 14px;
     font-weight: 400;
-    color: #333;
+    color: #000000;
     border-radius: 5px;
     border: 1px solid #aaa;
     padding: 0 15px;
@@ -104,14 +93,14 @@ form .fields .input-field{
 }
 .input-field input :focus,
 .input-field select:focus{
-    box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+    box-shadow: 0 3px 6px rgba(255, 255, 255, 0.13);
 }
 .input-field select,
 .input-field input[type="date"]{
-    color: #707070;
+    color: #000000;
 }
 .input-field input[type="date"]:valid{
-    color: #333;
+    color: #000000;
 }
 .container form button, .backBtn{
     display: flex;
@@ -134,7 +123,7 @@ form .fields .input-field{
     font-weight: 400;
 }
 form button:hover{
-    background-color: #265df2;
+    background-color: #19c684;
 }
 form button i,
 form .backBtn i{

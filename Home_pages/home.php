@@ -11,8 +11,8 @@ if (!isset($_SESSION['username'])) {
    exit();
 }
 $username = $_SESSION['username'];
-$_SESSION['groupID']=" ";
-$_SESSION['view_group']="";
+$_SESSION['groupID'] = " ";
+$_SESSION['view_group'] = "";
 // echo  $username;
 $link = select_profile_edit($username);
 ?>
@@ -45,7 +45,7 @@ $link = select_profile_edit($username);
             <p class="subtitie">Made Trip With Us!</p>
          </div>
          <ul>
-            <li class="nav_list"> <a href="#"  ><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
+            <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/homes.png" class="nav_icon"><span class="span_text">Home</span></a></li>
             <li class="nav_list" id="connectButton"> <a href="/Home_pages/Pagess/Friends/accpted_friend.php" id="connectButton"><img src="/Home_pages/image/icons/networking.png" class="nav_icon"><span class="span_text">Network</span></a></li>
             <li class="nav_list"> <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="nav_icon"><span class="span_text">Groups</span></a></li>
             <li class="nav_list"> <a href="#"><img src="/Home_pages/image/icons/deal.png" class="nav_icon"><span class="span_text">Sponsor</span></a></li>
@@ -268,7 +268,7 @@ $link = select_profile_edit($username);
                         }
                         ?>
                      </div>
-
+                     <!-- <a href="/Web_Design/Profile_Edit/view_profile.php"></a> -->
                      <div class="date_timr">
                         <?php
                         $sql = "SELECT date_time, user_name_post_table ,locations FROM post_table WHERE id = $post_id";
@@ -278,7 +278,8 @@ $link = select_profile_edit($username);
                            $row = $result->fetch_assoc();
                            $a = $row['user_name_post_table'];
                            $b = $row['locations'];
-                           echo "<a href='#' class='prof_name'>$a</a> <br>"; // Here comes the profile section;
+                           // echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$userNamer' class='req_link'>";
+                           echo "<a href='/Web_Design/Profile_Edit/view_profile.php?username=$a' class='prof_name'>$a</a> <br>"; // Here comes the profile section;
                         }
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -330,8 +331,8 @@ $link = select_profile_edit($username);
          <div class="imp-links">
 
             <a href=""><img src="/Home_pages/image/icons/newspaper.png" class="friend">&nbsp Latest Update</a>
-            
-            <a href=""><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
+
+            <a href="/Web_Design/view_group/Group-page-design/index.php"><img src="/Home_pages/image/icons/group.png" class="friend">&nbsp Groups</a>
             <a href=""><img src="/Home_pages/image/icons/activity.png" class="friend">&nbsp Activity</a>
             <a href=""><img src="/Home_pages/image/icons/travel-bag.png" class="friend">&nbsp Travel</a>
 
@@ -349,39 +350,36 @@ $link = select_profile_edit($username);
             See More... &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
          </span>
 
-         <!-- extra links ------------------------------------------------------------------------------------------- -->
+
+
+         <!-- ------------------------extra links ------------------------------------------------------------------------------------------- -->
+
+
          <div class="extra">
+            <?php
+            $my_groups = host_group_view($_SESSION['username']);
+            ?>
+
             <p class="p_extra"><br>Your Shortcuts</p>
 
             <div class="extra_links">
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
-               a <br>
+               <?php
+               if ($my_groups) {
+                  foreach ($my_groups as $group) {
+                     echo '<a href="/Home_pages/Pagess/Trip/trip.php?groupid=' . $group["Group_ID"] . '">';
+                     echo $group['Title'] . '</a><br>';
+                  }
+               } else {
+                  echo "No Group Yet";
+               }
+                ?>
+
             </div>
          </div>
+
+
+
+
 
          <div class="short-cut">
             <p></p>
@@ -447,7 +445,7 @@ $link = select_profile_edit($username);
                   dislikes.html(parseInt($('.dislikes_count' + post_id).text()) + 1);
                   likeButton.removeClass('selected');
                   dislikeButton.addClass('selected');
-               } else if (response ==='deletelike') {
+               } else if (response === 'deletelike') {
                   likes.html(parseInt($('.likes_count' + post_id).text()) - 1);
                   likeButton.removeClass('selected');
                } else if (response === 'deletedislike') {
@@ -460,31 +458,29 @@ $link = select_profile_edit($username);
       })
 
 
-      document.addEventListener('DOMContentLoaded', function () {
-    const connectButton = document.getElementById('connectButton');
-    const userListContainer = document.getElementById('search-result');
+      document.addEventListener('DOMContentLoaded', function() {
+         const connectButton = document.getElementById('connectButton');
+         const userListContainer = document.getElementById('search-result');
 
-    connectButton.addEventListener('click', function () {
-       
-        const xhr = new XMLHttpRequest();
+         connectButton.addEventListener('click', function() {
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                   
-                    userListContainer.innerHTML = xhr.responseText;
-                } else {
-                    console.error('Error fetching users:', xhr.status);
-                }
-            }
-        };
+            const xhr = new XMLHttpRequest();
 
-        xhr.open('GET', 'Home_pages/Pagess/Friends/friends.php');
-        xhr.send();
-    });
-});
+            xhr.onreadystatechange = function() {
+               if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
 
+                     userListContainer.innerHTML = xhr.responseText;
+                  } else {
+                     console.error('Error fetching users:', xhr.status);
+                  }
+               }
+            };
 
+            xhr.open('GET', 'Home_pages/Pagess/Friends/friends.php');
+            xhr.send();
+         });
+      });
    </script>
 </body>
 

@@ -19,28 +19,28 @@ include("php/servers.php");
          ?>
     <header>Sign Up</header>
             <div class="imgs">
-                <img src="/login_signup_page/img/sign-up.png" alt="">
+                <img src="/img/sign-up.png" alt="">
             </div>
             <form action="" method="post">             
                  <div class="field input">
                     <label for="username">Username</label>
-                    <input type="text" name="username" id="username" autocomplete="off" required>
+                    <input type="text" name="username" id="username" autocomplete="off" required placeholder="Username">
                  </div>
                  <div class="field input">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name" required>
+                    <input type="text" name="name" id="name" required placeholder="Name">
                  </div>
                  <div class="field input">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email"  required>
+                    <input type="email" name="email" id="email"  required placeholder="example@gmail.com">
                  </div>
                  <div class="field input">
                     <label for="age">Age</label>
-                    <input type="date" name="age" id="age" required >
+                    <input type="date" name="age" id="age" required placeholder="Age">
                  </div>
                  <div class="field input">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" autocomplete="off" required>
+                    <input type="password" name="password" id="password" autocomplete="off" required placeholder="Password must contain 8 digit"s>
                  </div>
                  <div class="field">              
                     <input type="submit" name="submit" class="btn" value="Sing Up" required>

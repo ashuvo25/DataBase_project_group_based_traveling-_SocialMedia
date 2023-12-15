@@ -8,14 +8,14 @@ include(__DIR__."/../../../Web_Design/DBconnection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //     // Debugging: Output the $_POST data
+        // Debugging: Output the $_POST data
     //     echo '<pre>';
     //     print_r($_POST);
     //     echo '</pre>';
 
 
-    //    // if (isset($_POST['submit'])) {
-    //         // Check if the key is set before accessing it
+       // if (isset($_POST['submit'])) {
+            // Check if the key is set before accessing it
     $form_1 = array(
         'Title' => isset($_POST["Group_title"]) ? $_POST["Group_title"] : "",
         'FromLocation' => isset($_POST["From"]) ? $_POST["From"] : "",
@@ -61,7 +61,7 @@ $conn->close();
 
 <body>
     <div class="container">
-        <header>Create Group</header>
+        <header><a href="/Web_Design/view_group/Group-page-design/index.php" style=' text-decoration: none; margin-right: 20px; '><img src="/Home_pages//image/icons/previous.png" alt="" width="25px" ></a>Create Group</header>
 
         <form method="post">
             <div class="form first">

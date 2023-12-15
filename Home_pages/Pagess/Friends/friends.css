@@ -113,7 +113,7 @@ nav{
 }
 .requests{
   width: 100%;
-  height: 150px;
+  height: 250px;
   overflow: scroll;
 }
 .profile .profile-link img{
@@ -406,19 +406,28 @@ nav{
   width: 100%;
   height:30%;
 }
+.friend-request1 {
+  /* background-color: #fff; */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+
+  width: 100%;
+  height:11%;
+}
 
 .friend-request-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 
 .friend-request-profile {
   border-radius: 50%;
   overflow: hidden;
   width: 30px;
-  height: 30px;
+  height: auto;
   margin-right: 8px;
 }
 

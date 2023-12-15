@@ -11,7 +11,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #4070f4;
+    background: #032030;
 }
 .container{
     position: relative;
@@ -20,14 +20,14 @@ body{
     border-radius: 6px;
     padding: 30px;
     margin: 0 15px;
-    background-color: #fff;
+    background-color: #003554;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 .container header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
-    color: #333;
+    color: #ffffff;
 }
 .container header::before{
     content: "";
@@ -37,19 +37,19 @@ body{
     height: 3px;
     width: 27px;
     border-radius: 8px;
-    background-color: #4070f4;
+   
 }
 .container form{
     position: relative;
     margin-top: 16px;
     min-height: 490px;
-    background-color: #fff;
+    background-color: #003554;
     overflow: hidden;
     overflow: scroll;
 }
 .container form .form{
     position: absolute;
-    background-color: #fff;
+    background-color: #003554;
     transition: 0.3s ease;
 }
 /* .container form .form.second{
@@ -73,7 +73,7 @@ form.secActive .form.first{
     font-size: 16px;
     font-weight: 500;
     margin: 6px 0;
-    color: #333;
+    color: #000000;
 }
 .container form .fields{
     display: flex;
@@ -96,13 +96,13 @@ form .fields .input-field_large{
 .input-field label{
     font-size: 12px;
     font-weight: 500;
-    color: #2e2e2e;
+    color: #ffffff;
 }
 .input-field input, select{
     outline: none;
     font-size: 14px;
     font-weight: 400;
-    color: #333;
+    color: #000000a1;
     border-radius: 5px;
     border: 1px solid #aaa;
     padding: 0 15px;
@@ -115,10 +115,10 @@ form .fields .input-field_large{
 }
 .input-field select,
 .input-field input[type="date"]{
-    color: #707070;
+    color: #00000098;
 }
 .input-field input[type="date"]:valid{
-    color: #333;
+    color: #0000008e;
 }
 .container form button, .backBtn{
     display: flex;
@@ -132,7 +132,7 @@ form .fields .input-field_large{
     color: #fff;
     border-radius: 5px;
     margin: 25px 0;
-    background-color: #4070f4;
+    background-color: #1c874e;
     transition: all 0.3s linear;
     cursor: pointer;
 }
@@ -141,7 +141,7 @@ form .fields .input-field_large{
     font-weight: 400;
 }
 form button:hover{
-    background-color: #265df2;
+    background-color: #0b7c58;
 }
 form button i,
 form .backBtn i{

@@ -22,18 +22,18 @@ include("php/servers.php");
          ?>
             <header>Login</header>
             <div class="imgs">
-                <img src="/login_signup_page/img/database-storage.png" alt="">
+                <img src="/img/database-storage.png" alt="">
             </div>
             <form action="" method="post">
                
                  <div class="field input">
                     <label for="username">Username</label>
-                    <input type="text" name="username" id="username" required>
+                    <input type="text" name="username" id="username" required placeholder="Username">
                  </div>
 
                  <div class="field input">
                     <label for="password" >Password</label>
-                    <input type="password" name="password" id="password" required>
+                    <input type="password" name="password" id="password" required placeholder="Enter 8 digits password">
                  </div>
 
                  <div class="field">

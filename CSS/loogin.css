@@ -38,7 +38,7 @@ body{
     flex-direction: column;
     padding: 25px 25px;
     border-radius: 20px;
-    box-shadow: -2px 6px 27px 14px rgba(0,0,0,0.44);
+    box-shadow: -2px 6px 27px 14px rgba(16, 83, 113, 0.44);
 -webkit-box-shadow: -2px 6px 27px 14px rgba(0,0,0,0.44);
 -moz-box-shadow: -2px 6px 27px 14px rgba(0,0,0,0.44);
     transform: rotateZ(0deg);
